@@ -5,10 +5,10 @@ import * as THREE from "three";
 
 type Props = {
   /** Real GLB/GLTF model uploaded from Admin. Falls back to the crafted bottle. */
-  modelUrl?: string;
-  tint?: string;
-  pointer?: React.RefObject<{ x: number; y: number }>;
-  spin?: boolean;
+  modelUrl?: string | undefined;
+  tint?: string | undefined;
+  pointer?: React.RefObject<{ x: number; y: number }> | undefined;
+  spin?: boolean | undefined;
 };
 
 function LoadedModel({ url, pointer, spin }: { url: string } & Omit<Props, "modelUrl">) {
