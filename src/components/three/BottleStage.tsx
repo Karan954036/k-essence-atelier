@@ -4,12 +4,12 @@ import { Suspense, useEffect, useRef } from "react";
 import { PerfumeBottle } from "./PerfumeBottle";
 
 type Props = {
-  modelUrl?: string;
-  tint?: string;
+  modelUrl?: string | undefined;
+  tint?: string | undefined;
   /** Cinematic mode adds floating motes and a wider camera. */
-  variant?: "hero" | "compact" | "viewer";
-  controls?: boolean;
-  className?: string;
+  variant?: "hero" | "compact" | "viewer" | undefined;
+  controls?: boolean | undefined;
+  className?: string | undefined;
 };
 
 function Motes() {
