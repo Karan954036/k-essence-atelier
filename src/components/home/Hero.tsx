@@ -1,5 +1,4 @@
-import { Link } from "@tanstack/react-router";
-import { ClientOnly } from "@tanstack/react-router";
+import { Link, ClientOnly } from "@tanstack/react-router";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
