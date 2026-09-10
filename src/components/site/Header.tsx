@@ -51,13 +51,14 @@ export function Header() {
           >
             <Menu className="h-5 w-5" />
           </button>
-          <button
-            aria-label="Search"
+          <Link
+            to="/shop"
+            aria-label="Search the collection"
             className="hidden items-center gap-2 text-xs tracking-[0.2em] text-foreground/70 transition hover:text-gold lg:flex"
           >
             <Search className="h-4 w-4 shrink-0" />
             SEARCH
-          </button>
+          </Link>
         </div>
 
         <Link to="/" className="flex shrink-0 items-center gap-3" aria-label="K ESSENCE home">
@@ -66,9 +67,9 @@ export function Header() {
         </Link>
 
         <div className="flex min-w-0 items-center justify-end gap-4 text-foreground/80">
-          <button aria-label="Search" className="transition hover:text-gold lg:hidden">
+          <Link to="/shop" aria-label="Search the collection" className="transition hover:text-gold lg:hidden">
             <Search className="h-5 w-5" />
-          </button>
+          </Link>
           <Link to="/" aria-label="Account" className="hidden transition hover:text-gold sm:block">
             <User className="h-5 w-5" />
           </Link>
@@ -108,7 +109,7 @@ export function Header() {
         {simpleLinks.slice(1).map((l) => (
           <Link
             key={l.label}
-            to="/"
+            to={l.to}
             className="text-[0.7rem] tracking-[0.24em] text-foreground/75 uppercase transition hover:text-gold"
             onMouseEnter={() => setOpen(null)}
           >
@@ -125,20 +126,25 @@ export function Header() {
                   <div key={col.title} className="min-w-0">
                     <p className="eyebrow mb-4">{col.title}</p>
                     <ul className="space-y-2.5">
-                      {col.items.map((item) => (
-                        <li key={item}>
+                      {col.items.map((navItem) => (
+                        <li key={navItem.label}>
                           <Link
-                            to="/"
+                            to="/shop"
+                            search={navItem.search}
                             className="text-sm text-foreground/75 transition hover:text-champagne"
                           >
-                            {item}
+                            {navItem.label}
                           </Link>
                         </li>
                       ))}
                     </ul>
                   </div>
                 ))}
-              <div className="light-sweep relative overflow-hidden rounded-md border border-border">
+              <Link
+                to="/shop"
+                search={{ collection: "oud-collection" }}
+                className="light-sweep relative overflow-hidden rounded-md border border-border"
+              >
                 <div
                   className="h-full min-h-40 w-full"
                   style={{
@@ -150,7 +156,7 @@ export function Header() {
                   <p className="eyebrow">Featured</p>
                   <p className="font-display text-xl text-champagne">The Oud Collection</p>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         )}
@@ -171,16 +177,39 @@ export function Header() {
               <div key={menu.label} className="mb-7">
                 <p className="eyebrow mb-3">{menu.label}</p>
                 <ul className="grid grid-cols-2 gap-2">
-                  {menu.columns.flatMap((c) => c.items).map((item) => (
-                    <li key={item}>
-                      <Link to="/" className="text-sm text-foreground/75" onClick={() => setMobileOpen(false)}>
-                        {item}
+                  {menu.columns.flatMap((c) => c.items).map((navItem) => (
+                    <li key={navItem.label}>
+                      <Link
+                        to="/shop"
+                        search={navItem.search}
+                        className="text-sm text-foreground/75"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {navItem.label}
                       </Link>
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
+            <div className="mt-4 grid gap-2 border-t border-border pt-6">
+              {simpleLinks.slice(1).map((l) => (
+                <Link
+                  key={l.label}
+                  to={l.to}
+                  className="text-sm text-foreground/75"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {l.label}
+                </Link>
+              ))}
+              <Link to="/manufacturing" className="text-sm text-foreground/75" onClick={() => setMobileOpen(false)}>
+                Manufacturing
+              </Link>
+              <Link to="/wholesale" className="text-sm text-foreground/75" onClick={() => setMobileOpen(false)}>
+                Wholesale
+              </Link>
+            </div>
           </div>
         </div>
       )}
