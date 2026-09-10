@@ -14,7 +14,273 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          kind: string
+          name: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          name: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      collections: {
+        Row: {
+          created_at: string
+          id: string
+          is_featured: boolean
+          slug: string
+          sort_order: number
+          tagline: string | null
+          tint: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_featured?: boolean
+          slug: string
+          sort_order?: number
+          tagline?: string | null
+          tint?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_featured?: boolean
+          slug?: string
+          sort_order?: number
+          tagline?: string | null
+          tint?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      product_media: {
+        Row: {
+          alt: string | null
+          id: string
+          kind: string
+          product_id: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          alt?: string | null
+          id?: string
+          kind?: string
+          product_id: string
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          alt?: string | null
+          id?: string
+          kind?: string
+          product_id?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_media_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_notes: {
+        Row: {
+          id: string
+          layer: string
+          name: string
+          product_id: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          layer: string
+          name: string
+          product_id: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          layer?: string
+          name?: string
+          product_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_notes_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_variants: {
+        Row: {
+          created_at: string
+          id: string
+          label: string
+          mrp: number
+          price: number
+          product_id: string
+          sku: string | null
+          sort_order: number
+          stock: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label: string
+          mrp?: number
+          price?: number
+          product_id: string
+          sku?: string | null
+          sort_order?: number
+          stock?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string
+          mrp?: number
+          price?: number
+          product_id?: string
+          sku?: string | null
+          sort_order?: number
+          stock?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          badge: string | null
+          category_id: string | null
+          collection_id: string | null
+          created_at: string
+          description: string | null
+          family: string | null
+          id: string
+          in_stock: boolean
+          is_active: boolean
+          is_demo: boolean
+          kind: string
+          longevity: number
+          model_url: string | null
+          mrp: number
+          name: string
+          price: number
+          projection: number
+          rating: number
+          review_count: number
+          sillage: number
+          slug: string
+          sort_order: number
+          tint: string
+        }
+        Insert: {
+          badge?: string | null
+          category_id?: string | null
+          collection_id?: string | null
+          created_at?: string
+          description?: string | null
+          family?: string | null
+          id?: string
+          in_stock?: boolean
+          is_active?: boolean
+          is_demo?: boolean
+          kind?: string
+          longevity?: number
+          model_url?: string | null
+          mrp?: number
+          name: string
+          price?: number
+          projection?: number
+          rating?: number
+          review_count?: number
+          sillage?: number
+          slug: string
+          sort_order?: number
+          tint?: string
+        }
+        Update: {
+          badge?: string | null
+          category_id?: string | null
+          collection_id?: string | null
+          created_at?: string
+          description?: string | null
+          family?: string | null
+          id?: string
+          in_stock?: boolean
+          is_active?: boolean
+          is_demo?: boolean
+          kind?: string
+          longevity?: number
+          model_url?: string | null
+          mrp?: number
+          name?: string
+          price?: number
+          projection?: number
+          rating?: number
+          review_count?: number
+          sillage?: number
+          slug?: string
+          sort_order?: number
+          tint?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
