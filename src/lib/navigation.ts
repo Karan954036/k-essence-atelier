@@ -18,38 +18,6 @@ const item = (label: string, search: ShopSearch = {}): NavItem => ({ label, sear
 
 export const megaMenus: MegaMenu[] = [
   {
-    label: "Shop",
-    columns: [
-      {
-        title: "Fragrance",
-        items: [
-          item("All Fragrances"),
-          item("Perfumes", { kind: "perfume" }),
-          item("Attars", { kind: "attar" }),
-          item("Oud Collection", { collection: "oud-collection" }),
-          item("Woody", { family: "Woody" }),
-          item("Musky", { family: "Musky" }),
-        ],
-      },
-      {
-        title: "Collections",
-        items: [
-          item("Royal Collection", { collection: "royal-collection" }),
-          item("Signature Attars", { collection: "signature-attars" }),
-          item("Luxury Perfumes", { collection: "luxury-perfumes" }),
-        ],
-      },
-      {
-        title: "Discover",
-        items: [
-          item("Top Rated", { sort: "rating" }),
-          item("Lowest Price", { sort: "price-asc" }),
-          item("Highest Price", { sort: "price-desc" }),
-        ],
-      },
-    ],
-  },
-  {
     label: "Perfumes",
     columns: [
       {
@@ -93,7 +61,11 @@ export const megaMenus: MegaMenu[] = [
       },
       {
         title: "Ingredient",
-        items: [item("Oud", { q: "oud" }), item("Sandalwood", { q: "sandal" }), item("Saffron", { q: "saffron" })],
+        items: [
+          item("Oud", { q: "oud" }),
+          item("Sandalwood", { q: "sandal" }),
+          item("Saffron", { q: "saffron" }),
+        ],
       },
     ],
   },
@@ -122,7 +94,7 @@ export const megaMenus: MegaMenu[] = [
 
 export const simpleLinks = [
   { label: "Home", to: "/" },
-  { label: "Gifting", to: "/gifting" },
-  { label: "About", to: "/about" },
-  { label: "Contact", to: "/contact" },
+  { label: "Gifting", to: "/shop" },
+  { label: "About", to: "/shop" },
+  { label: "Contact", to: "/shop" },
 ] as const;
