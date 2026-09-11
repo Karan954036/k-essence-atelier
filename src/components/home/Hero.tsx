@@ -18,8 +18,7 @@ function StaticBottleFallback() {
     <div
       className="absolute inset-0"
       style={{
-        background:
-          "radial-gradient(45% 40% at 50% 45%, oklch(0.4 0.07 68) 0%, transparent 70%)",
+        background: "radial-gradient(45% 40% at 50% 45%, oklch(0.4 0.07 68) 0%, transparent 70%)",
       }}
     />
   );
@@ -63,13 +62,14 @@ export function Hero() {
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
             <Link
-              to="/"
+              to="/shop"
               className="light-sweep inline-flex items-center rounded-sm border border-gold/60 bg-gold/10 px-7 py-3.5 text-[0.7rem] tracking-[0.24em] text-champagne uppercase transition hover:bg-gold/20"
             >
               Explore Collection
             </Link>
             <Link
-              to="/"
+              to="/shop"
+              search={{ kind: "attar" }}
               className="inline-flex items-center rounded-sm border border-border px-7 py-3.5 text-[0.7rem] tracking-[0.24em] text-foreground/80 uppercase transition hover:border-gold/50 hover:text-gold"
             >
               Discover Attars

@@ -15,7 +15,11 @@ type Props = {
 function Motes() {
   const positions = Array.from({ length: 34 }, (_, i) => {
     const a = (i / 34) * Math.PI * 2;
-    return [Math.cos(a) * (1.4 + (i % 5) * 0.28), -1 + ((i * 7) % 33) / 11, Math.sin(a) * (1.1 + (i % 4) * 0.3)] as const;
+    return [
+      Math.cos(a) * (1.4 + (i % 5) * 0.28),
+      -1 + ((i * 7) % 33) / 11,
+      Math.sin(a) * (1.1 + (i % 4) * 0.3),
+    ] as const;
   });
   return (
     <group>
