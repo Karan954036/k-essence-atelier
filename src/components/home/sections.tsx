@@ -53,7 +53,8 @@ export function FeaturedCollections() {
         {featuredCollections.map((c, i) => (
           <Reveal key={c.slug} delay={i * 90}>
             <Link
-              to="/"
+              to="/shop"
+              search={{ collection: c.slug }}
               className="light-sweep group relative block h-72 overflow-hidden rounded-sm border border-border transition-all duration-500 hover:-translate-y-2 hover:border-gold/40"
             >
               <div
@@ -139,11 +140,11 @@ export function FragranceExperience() {
             Find the scent that becomes yours
           </h2>
           <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-            A guided fragrance discovery journey — by mood, occasion, intensity and note family —
-            is being built into K ESSENCE. Explore the collection meanwhile.
+            A guided fragrance discovery journey — by mood, occasion, intensity and note family — is
+            being built into K ESSENCE. Explore the collection meanwhile.
           </p>
           <Link
-            to="/"
+            to="/shop"
             className="light-sweep mt-9 inline-flex items-center gap-3 rounded-sm border border-gold/60 bg-gold/10 px-8 py-4 text-[0.7rem] tracking-[0.24em] text-champagne uppercase transition hover:bg-gold/20"
           >
             <Sparkles className="h-4 w-4" />
@@ -210,9 +211,21 @@ export function StorySection() {
 
 const values = [
   { icon: Leaf, title: "Crafted With Care", copy: "Blended in small, closely monitored batches." },
-  { icon: Sparkles, title: "Premium Fragrance Experience", copy: "Layered compositions with a considered dry-down." },
-  { icon: ShieldCheck, title: "Quality Focused", copy: "Checked for consistency before it reaches you." },
-  { icon: Gift, title: "Made for Every Occasion", copy: "From daily wear to celebration and gifting." },
+  {
+    icon: Sparkles,
+    title: "Premium Fragrance Experience",
+    copy: "Layered compositions with a considered dry-down.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Quality Focused",
+    copy: "Checked for consistency before it reaches you.",
+  },
+  {
+    icon: Gift,
+    title: "Made for Every Occasion",
+    copy: "From daily wear to celebration and gifting.",
+  },
 ];
 
 export function WhySection() {
@@ -278,16 +291,13 @@ export function NewsletterSection() {
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "radial-gradient(60% 90% at 50% 0%, oklch(0.24 0.05 65) 0%, transparent 70%)",
+          background: "radial-gradient(60% 90% at 50% 0%, oklch(0.24 0.05 65) 0%, transparent 70%)",
         }}
       />
       <div className="relative mx-auto max-w-xl px-4 text-center lg:px-8">
         <Reveal>
           <p className="eyebrow">The list</p>
-          <h2 className="mt-4 font-display text-3xl text-ivory sm:text-4xl">
-            New releases, first
-          </h2>
+          <h2 className="mt-4 font-display text-3xl text-ivory sm:text-4xl">New releases, first</h2>
           <p className="mt-4 text-sm text-muted-foreground">
             Occasional letters on new compositions, limited runs and gifting.
           </p>

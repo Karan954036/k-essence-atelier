@@ -1,9 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Search, User, Heart, ShoppingBag, Menu, X } from "lucide-react";
-import logo from "@/assets/k-essence-logo.asset.json";
+// Use the local public asset for the logo to avoid preview-hosted URLs
+const LOGO_SRC = "/k-essence-logo.jpeg";
 import { megaMenus, simpleLinks } from "@/lib/navigation";
+import { useCart } from "@/lib/cart-store";
+import { useWishlist } from "@/lib/wishlist-store";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
 
 export function AnnouncementBar({
   text = "Crafted in India • Premium Fragrances • Signature Attars",
@@ -27,6 +31,11 @@ export function Header() {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const { openCart, totalItems } = useCart();
+  const { totalWishlist } = useWishlist();
+  const { user, signOut } = useAuth();
+  const [acctOpen, setAcctOpen] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -38,7 +47,9 @@ export function Header() {
     <header
       className={cn(
         "sticky top-0 z-50 transition-all duration-500",
-        scrolled ? "glass-panel border-x-0 border-t-0 shadow-none" : "bg-transparent border-b border-transparent",
+        scrolled
+          ? "glass-panel border-x-0 border-t-0 shadow-none"
+          : "bg-transparent border-b border-transparent",
       )}
       onMouseLeave={() => setOpen(null)}
     >
@@ -46,7 +57,7 @@ export function Header() {
         <div className="flex min-w-0 items-center gap-3">
           <button
             aria-label="Open menu"
-            className="text-foreground/80 transition hover:text-gold lg:hidden"
+            className="text-foreground/80 transition hover:text-gold lg:hidden cursor-pointer"
             onClick={() => setMobileOpen(true)}
           >
             <Menu className="h-5 w-5" />
@@ -62,23 +73,77 @@ export function Header() {
         </div>
 
         <Link to="/" className="flex shrink-0 items-center gap-3" aria-label="K ESSENCE home">
-          <img src={logo.url} alt="K ESSENCE" className="h-11 w-11 rounded-full object-cover sm:h-12 sm:w-12" />
-          <span className="font-display text-lg tracking-[0.34em] text-champagne sm:text-xl">K ESSENCE</span>
+          <img src={LOGO_SRC} alt="K ESSENCE" className="h-11 w-11 rounded-full object-cover sm:h-12 sm:w-12" />
+          <span className="font-display text-lg tracking-[0.34em] text-champagne sm:text-xl">
+            K ESSENCE
+          </span>
         </Link>
 
         <div className="flex min-w-0 items-center justify-end gap-4 text-foreground/80">
-          <Link to="/shop" aria-label="Search the collection" className="transition hover:text-gold lg:hidden">
+          <Link
+            to="/shop"
+            aria-label="Search the collection"
+            className="transition hover:text-gold lg:hidden"
+          >
             <Search className="h-5 w-5" />
           </Link>
-          <Link to="/" aria-label="Account" className="hidden transition hover:text-gold sm:block">
-            <User className="h-5 w-5" />
-          </Link>
-          <Link to="/" aria-label="Wishlist" className="hidden transition hover:text-gold sm:block">
+          {!user ? (
+            <div className="hidden sm:flex items-center gap-3">
+              <Link to="/login" className="transition hover:text-gold">
+                Login
+              </Link>
+              <Link to="/register" className="transition hover:text-gold">
+                Register
+              </Link>
+            </div>
+          ) : (
+            <div className="relative hidden sm:block">
+              <button
+                onClick={() => setAcctOpen((s) => !s)}
+                className="transition hover:text-gold"
+                aria-label="Account menu"
+              >
+                <User className="h-5 w-5" />
+              </button>
+              {acctOpen && (
+                <div className="absolute right-0 mt-2 w-44 rounded-md border border-border bg-background p-2 shadow-lg">
+                  <div className="px-3 py-2 text-sm text-foreground/80">{user.user_metadata?.full_name ?? user.email}</div>
+                  <Link to="/account" className="block px-3 py-2 text-sm hover:text-gold">
+                    Account
+                  </Link>
+                  <button onClick={() => signOut()} className="block w-full text-left px-3 py-2 text-sm hover:text-red-500">
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+          <Link
+            to="/shop"
+            search={{ sort: "rating" }}
+            aria-label="Wishlist"
+            className="relative hidden transition hover:text-gold sm:block"
+          >
             <Heart className="h-5 w-5" />
+            {totalWishlist > 0 && (
+              <span className="absolute -top-1.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full border border-gold/40 bg-obsidian px-1 text-[0.6rem] font-medium text-gold">
+                {totalWishlist}
+              </span>
+            )}
           </Link>
-          <Link to="/" aria-label="Cart" className="transition hover:text-gold">
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label="Shopping Bag"
+            className="relative transition hover:text-gold cursor-pointer"
+          >
             <ShoppingBag className="h-5 w-5" />
-          </Link>
+            {totalItems > 0 && (
+              <span className="absolute -top-1.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[0.6rem] font-medium text-obsidian shadow-sm">
+                {totalItems}
+              </span>
+            )}
+          </button>
         </div>
       </div>
 
@@ -93,11 +158,18 @@ export function Header() {
         >
           Home
         </Link>
+        <Link
+          to="/shop"
+          className="text-[0.7rem] tracking-[0.24em] text-foreground/75 uppercase transition hover:text-gold"
+          onMouseEnter={() => setOpen(null)}
+        >
+          Shop
+        </Link>
         {megaMenus.map((menu) => (
           <button
             key={menu.label}
             className={cn(
-              "text-[0.7rem] tracking-[0.24em] uppercase transition",
+              "text-[0.7rem] tracking-[0.24em] uppercase transition cursor-pointer",
               open === menu.label ? "text-gold" : "text-foreground/75 hover:text-gold",
             )}
             onMouseEnter={() => setOpen(menu.label)}
@@ -118,7 +190,7 @@ export function Header() {
         ))}
 
         {open && (
-          <div className="absolute top-full left-0 w-full">
+          <div className="absolute top-full left-0 w-full z-50">
             <div className="glass-panel mx-auto grid max-w-7xl grid-cols-[repeat(3,minmax(0,1fr))_18rem] gap-10 rounded-b-lg px-10 py-9">
               {megaMenus
                 .find((m) => m.label === open)!
@@ -132,6 +204,7 @@ export function Header() {
                             to="/shop"
                             search={navItem.search}
                             className="text-sm text-foreground/75 transition hover:text-champagne"
+                            onClick={() => setOpen(null)}
                           >
                             {navItem.label}
                           </Link>
@@ -143,6 +216,7 @@ export function Header() {
               <Link
                 to="/shop"
                 search={{ collection: "oud-collection" }}
+                onClick={() => setOpen(null)}
                 className="light-sweep relative overflow-hidden rounded-md border border-border"
               >
                 <div
@@ -173,22 +247,34 @@ export function Header() {
           </div>
           <div className="hairline-gold h-px" />
           <div className="h-[calc(100vh-5rem)] overflow-y-auto px-6 py-6">
+            <div className="mb-6">
+              <Link
+                to="/shop"
+                className="font-display text-lg tracking-wider text-champagne flex items-center justify-between py-2 border-b border-border/60"
+                onClick={() => setMobileOpen(false)}
+              >
+                <span>ALL FRAGRANCES</span>
+                <span className="text-xs text-gold">EXPLORE →</span>
+              </Link>
+            </div>
             {megaMenus.map((menu) => (
               <div key={menu.label} className="mb-7">
                 <p className="eyebrow mb-3">{menu.label}</p>
                 <ul className="grid grid-cols-2 gap-2">
-                  {menu.columns.flatMap((c) => c.items).map((navItem) => (
-                    <li key={navItem.label}>
-                      <Link
-                        to="/shop"
-                        search={navItem.search}
-                        className="text-sm text-foreground/75"
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        {navItem.label}
-                      </Link>
-                    </li>
-                  ))}
+                  {menu.columns
+                    .flatMap((c) => c.items)
+                    .map((navItem) => (
+                      <li key={navItem.label}>
+                        <Link
+                          to="/shop"
+                          search={navItem.search}
+                          className="text-sm text-foreground/75"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {navItem.label}
+                        </Link>
+                      </li>
+                    ))}
                 </ul>
               </div>
             ))}
@@ -203,12 +289,6 @@ export function Header() {
                   {l.label}
                 </Link>
               ))}
-              <Link to="/manufacturing" className="text-sm text-foreground/75" onClick={() => setMobileOpen(false)}>
-                Manufacturing
-              </Link>
-              <Link to="/wholesale" className="text-sm text-foreground/75" onClick={() => setMobileOpen(false)}>
-                Wholesale
-              </Link>
             </div>
           </div>
         </div>

@@ -8,8 +8,9 @@ Premium D2C Perfume + Attar E-Commerce Website
 with a powerful Admin Dashboard and Manufacturing/Inventory Management System.
 
 ========================================================
+
 1. BRAND IDENTITY
-========================================================
+   \========================================================
 
 Brand Name:
 K ESSENCE
@@ -62,8 +63,7 @@ Use them only as UX/business references.
 
 The K ESSENCE website must have its own identity.
 
-========================================================
-2. DESIGN DIRECTION
+======================================================== 2. DESIGN DIRECTION
 ========================================================
 
 Create a DARK LUXURY CINEMATIC DESIGN.
@@ -82,6 +82,7 @@ Primary background:
 Near-black / obsidian.
 
 Use:
+
 - black glass panels
 - subtle gradients
 - metallic gold borders
@@ -97,6 +98,7 @@ Do NOT overuse gold.
 Gold should be used as a premium accent.
 
 Avoid:
+
 - bright colorful gradients
 - childish UI
 - excessive rounded cards
@@ -106,8 +108,7 @@ Avoid:
 - excessive animations
 - visual clutter
 
-========================================================
-3. CORE VISUAL CONCEPT
+======================================================== 3. CORE VISUAL CONCEPT
 ========================================================
 
 The website should feel like the user has entered a luxury fragrance showroom.
@@ -137,8 +138,7 @@ sections should reveal themselves through cinematic transitions.
 
 The experience should feel premium and smooth rather than flashy.
 
-========================================================
-4. 3D REQUIREMENT — VERY IMPORTANT
+======================================================== 4. 3D REQUIREMENT — VERY IMPORTANT
 ========================================================
 
 Do NOT build the product catalog using only static images.
@@ -167,8 +167,7 @@ Each product should optionally support:
 - transparent PNG
 - hover animation
 
-========================================================
-5. PRODUCT CARD 3D INTERACTION
+======================================================== 5. PRODUCT CARD 3D INTERACTION
 ========================================================
 
 Product cards must NOT feel static.
@@ -194,6 +193,7 @@ Use a small 3D canvas and allow the bottle to rotate.
 For products that do not yet have a 3D model:
 
 Create a premium animated fallback using:
+
 - perspective transform
 - mouse-follow tilt
 - depth/shadow
@@ -208,8 +208,7 @@ Do NOT pretend a flat image is a real 3D model.
 
 The CMS should support uploading a real 3D model for products.
 
-========================================================
-6. HERO SECTION
+======================================================== 6. HERO SECTION
 ========================================================
 
 Create a FULL-SCREEN cinematic hero.
@@ -259,6 +258,7 @@ Add subtle scroll indicator:
 "SCROLL TO DISCOVER"
 
 Hero animation:
+
 - fade-in
 - slow camera movement
 - bottle entrance
@@ -267,8 +267,7 @@ Hero animation:
 
 Do not make the hero animation too fast.
 
-========================================================
-7. TOP ANNOUNCEMENT BAR
+======================================================== 7. TOP ANNOUNCEMENT BAR
 ========================================================
 
 Add a thin premium announcement bar.
@@ -280,14 +279,14 @@ Example:
 Make the text configurable from Admin.
 
 Admin should be able to change:
+
 - text
 - enable/disable
 - link
 - background
 - scheduling
 
-========================================================
-8. HEADER
+======================================================== 8. HEADER
 ========================================================
 
 Desktop header:
@@ -321,13 +320,13 @@ Header should be transparent over the hero and become a dark glass header after 
 Sticky header.
 
 On scroll:
+
 - subtle backdrop blur
 - black translucent background
 - gold accent
 - smooth transition
 
-========================================================
-9. MEGA MENU
+======================================================== 9. MEGA MENU
 ========================================================
 
 Create premium mega menus.
@@ -392,8 +391,7 @@ Festival Gifts
 
 Mega menu should contain small visual category previews.
 
-========================================================
-10. HOMEPAGE STRUCTURE
+======================================================== 10. HOMEPAGE STRUCTURE
 ========================================================
 
 Homepage sections:
@@ -416,8 +414,7 @@ Homepage sections:
 
 Each section should have subtle scroll-based animation.
 
-========================================================
-11. FEATURED COLLECTIONS
+======================================================== 11. FEATURED COLLECTIONS
 ========================================================
 
 Create large cinematic cards.
@@ -449,8 +446,7 @@ On hover:
 - title moves upward
 - CTA appears
 
-========================================================
-12. BEST SELLERS
+======================================================== 12. BEST SELLERS
 ========================================================
 
 Create a premium product carousel.
@@ -499,8 +495,7 @@ SAVE 24%
 
 [ADD TO CART]
 
-========================================================
-13. PRODUCT CARD
+======================================================== 13. PRODUCT CARD
 ========================================================
 
 Product cards must support:
@@ -532,8 +527,7 @@ Cards should NOT look like generic e-commerce cards.
 
 Use large product visual area.
 
-========================================================
-14. SHOP PAGE
+======================================================== 14. SHOP PAGE
 ========================================================
 
 Create:
@@ -603,8 +597,7 @@ Support:
 
 Pagination OR infinite loading.
 
-========================================================
-15. FRAGRANCE FINDER
+======================================================== 15. FRAGRANCE FINDER
 ========================================================
 
 Create an interactive fragrance recommendation system.
@@ -671,8 +664,7 @@ MATCH SCORE: 94%
 
 Make this visually interactive and animated.
 
-========================================================
-16. PRODUCT DETAIL PAGE
+======================================================== 16. PRODUCT DETAIL PAGE
 ========================================================
 
 URL:
@@ -718,8 +710,7 @@ Wishlist
 
 Share
 
-========================================================
-17. 3D PRODUCT VIEWER
+======================================================== 17. 3D PRODUCT VIEWER
 ========================================================
 
 On product page:
@@ -750,8 +741,7 @@ Provide mobile touch controls.
 If no 3D model exists:
 show a premium animated image fallback.
 
-========================================================
-18. FRAGRANCE PYRAMID
+======================================================== 18. FRAGRANCE PYRAMID
 ========================================================
 
 Every perfume product should support:
@@ -785,8 +775,7 @@ Sandalwood
 
 Admin should be able to configure notes per product.
 
-========================================================
-19. FRAGRANCE PERFORMANCE
+======================================================== 19. FRAGRANCE PERFORMANCE
 ========================================================
 
 Product page should optionally display:
@@ -810,8 +799,7 @@ Projection
 
 These values must be editable from Admin.
 
-========================================================
-20. PRODUCT INFORMATION
+======================================================== 20. PRODUCT INFORMATION
 ========================================================
 
 Support:
@@ -837,8 +825,7 @@ Shelf Life
 
 Use accordion sections.
 
-========================================================
-21. REVIEWS
+======================================================== 21. REVIEWS
 ========================================================
 
 Product review system.
@@ -868,8 +855,7 @@ With Videos
 
 Admin must approve/reject reviews.
 
-========================================================
-22. RELATED PRODUCTS
+======================================================== 22. RELATED PRODUCTS
 ========================================================
 
 At bottom of product page:
@@ -886,8 +872,7 @@ Customer behavior
 
 Display animated 3D product cards.
 
-========================================================
-23. CART
+======================================================== 23. CART
 ========================================================
 
 Create premium cart drawer + cart page.
@@ -922,8 +907,7 @@ YOU MAY ALSO LIKE
 
 Add coupon field.
 
-========================================================
-24. CHECKOUT
+======================================================== 24. CHECKOUT
 ========================================================
 
 Create clean distraction-free checkout.
@@ -954,8 +938,7 @@ Payment order creation and payment verification must happen server-side.
 
 Use webhooks for payment status synchronization.
 
-========================================================
-25. USER AUTHENTICATION
+======================================================== 25. USER AUTHENTICATION
 ========================================================
 
 Customer authentication:
@@ -973,8 +956,7 @@ Pages:
 
 Optional social login architecture.
 
-========================================================
-26. USER ACCOUNT
+======================================================== 26. USER ACCOUNT
 ========================================================
 
 Create:
@@ -996,8 +978,7 @@ Notifications
 Support
 Logout
 
-========================================================
-27. ORDER TRACKING
+======================================================== 27. ORDER TRACKING
 ========================================================
 
 Create visual timeline:
@@ -1025,8 +1006,7 @@ Expected Delivery
 Invoice
 Shipping Address
 
-========================================================
-28. WISHLIST
+======================================================== 28. WISHLIST
 ========================================================
 
 Customer can add/remove products.
@@ -1039,8 +1019,7 @@ Discount
 Stock
 Add to Cart
 
-========================================================
-29. GIFTING
+======================================================== 29. GIFTING
 ========================================================
 
 Create dedicated:
@@ -1064,8 +1043,7 @@ Gift message
 
 if supported by backend.
 
-========================================================
-30. MANUFACTURING STORY
+======================================================== 30. MANUFACTURING STORY
 ========================================================
 
 Create:
@@ -1092,8 +1070,7 @@ Do not invent certifications or claims.
 
 Only display real certifications and manufacturing claims when provided by the business/admin.
 
-========================================================
-31. ABOUT PAGE
+======================================================== 31. ABOUT PAGE
 ========================================================
 
 Create:
@@ -1110,8 +1087,7 @@ Quality philosophy
 
 Use cinematic storytelling.
 
-========================================================
-32. WHOLESALE / B2B
+======================================================== 32. WHOLESALE / B2B
 ========================================================
 
 Create:
@@ -1144,8 +1120,7 @@ Submit Inquiry.
 
 Store inquiry in Admin.
 
-========================================================
-33. CONTACT
+======================================================== 33. CONTACT
 ========================================================
 
 /contact
@@ -1164,8 +1139,7 @@ Use actual business information only when provided.
 
 Do not invent phone numbers or addresses.
 
-========================================================
-34. INSTAGRAM / SOCIAL
+======================================================== 34. INSTAGRAM / SOCIAL
 ========================================================
 
 Create Instagram-inspired gallery section.
@@ -1193,7 +1167,7 @@ Video
 Instagram URL
 Caption
 
-========================================================
+======================================================== 
 35. ADMIN PANEL
 ========================================================
 
@@ -1309,8 +1283,7 @@ Audit Logs
 
 Settings
 
-========================================================
-36. ADMIN DASHBOARD
+======================================================== 36. ADMIN DASHBOARD
 ========================================================
 
 Dashboard should show:
@@ -1345,8 +1318,7 @@ Show real database values.
 
 Use dummy seed data during development.
 
-========================================================
-37. CATALOG MANAGEMENT
+======================================================== 37. CATALOG MANAGEMENT
 ========================================================
 
 Admin can:
@@ -1382,8 +1354,7 @@ SEO
 Shipping
 Tax
 
-========================================================
-38. INVENTORY MANAGEMENT
+======================================================== 38. INVENTORY MANAGEMENT
 ========================================================
 
 Inventory system must support:
@@ -1412,8 +1383,7 @@ Every stock change must create an inventory movement record.
 
 Never silently change stock.
 
-========================================================
-39. MANUFACTURING MANAGEMENT
+======================================================== 39. MANUFACTURING MANAGEMENT
 ========================================================
 
 Create manufacturer-focused ERP-like module.
@@ -1438,8 +1408,7 @@ Do not assume these are actual K ESSENCE materials.
 
 Admin must be able to configure raw materials.
 
-========================================================
-40. FORMULA / BOM SYSTEM
+======================================================== 40. FORMULA / BOM SYSTEM
 ========================================================
 
 Create formula/BOM.
@@ -1468,8 +1437,7 @@ Admin can define exact quantities.
 
 Do not hardcode sample ingredients as actual business information.
 
-========================================================
-41. PRODUCTION BATCHES
+======================================================== 41. PRODUCTION BATCHES
 ========================================================
 
 Create:
@@ -1503,8 +1471,7 @@ When production is completed:
 
 Finished inventory should increase automatically.
 
-========================================================
-42. QUALITY CONTROL
+======================================================== 42. QUALITY CONTROL
 ========================================================
 
 Create QC module.
@@ -1529,8 +1496,7 @@ Rework
 
 Do not invent quality claims.
 
-========================================================
-43. ORDERS ADMIN
+======================================================== 43. ORDERS ADMIN
 ========================================================
 
 Admin order page:
@@ -1567,8 +1533,7 @@ Ship
 Cancel
 Refund
 
-========================================================
-44. BILLING
+======================================================== 44. BILLING
 ========================================================
 
 Create invoice system.
@@ -1598,8 +1563,7 @@ Email
 
 Create credit notes and refund documentation.
 
-========================================================
-45. CUSTOMER MANAGEMENT
+======================================================== 45. CUSTOMER MANAGEMENT
 ========================================================
 
 Admin customer profile:
@@ -1623,8 +1587,7 @@ Returning
 VIP
 Inactive
 
-========================================================
-46. MARKETING
+======================================================== 46. MARKETING
 ========================================================
 
 Admin can create:
@@ -1653,8 +1616,7 @@ Per Customer Limit
 Applicable Products
 Applicable Categories
 
-========================================================
-47. ABANDONED CART
+======================================================== 47. ABANDONED CART
 ========================================================
 
 Track abandoned carts.
@@ -1674,8 +1636,7 @@ WhatsApp
 
 Do not automatically send messages without configured provider and customer consent.
 
-========================================================
-48. SHIPPING
+======================================================== 48. SHIPPING
 ========================================================
 
 Create shipping management.
@@ -1701,8 +1662,7 @@ Delivery estimate
 
 Keep shipping provider integration modular.
 
-========================================================
-49. ANALYTICS
+======================================================== 49. ANALYTICS
 ========================================================
 
 Admin analytics:
@@ -1732,8 +1692,7 @@ Repeat Customers
 Customer Lifetime Value
 Repeat Purchase Rate
 
-========================================================
-50. PROFIT ANALYTICS
+======================================================== 50. PROFIT ANALYTICS
 ========================================================
 
 Because K ESSENCE is a manufacturer, include estimated profitability.
@@ -1754,8 +1713,7 @@ Make cost values configurable.
 
 Do NOT claim exact profit unless actual accounting data is available.
 
-========================================================
-51. CMS
+======================================================== 51. CMS
 ========================================================
 
 Website must NOT require developer changes for normal content.
@@ -1783,8 +1741,7 @@ Scheduling
 Ordering
 Preview
 
-========================================================
-52. SEO
+======================================================== 52. SEO
 ========================================================
 
 Every product/category/collection/page should support:
@@ -1804,8 +1761,7 @@ Use semantic HTML.
 
 Product structured data where appropriate.
 
-========================================================
-53. ADMIN ROLES
+======================================================== 53. ADMIN ROLES
 ========================================================
 
 Implement RBAC.
@@ -1825,8 +1781,7 @@ Each role must have configurable permissions.
 
 Do not give every employee full access.
 
-========================================================
-54. SECURITY
+======================================================== 54. SECURITY
 ========================================================
 
 Implement:
@@ -1862,8 +1817,7 @@ Timestamp
 
 Never expose secrets in frontend.
 
-========================================================
-55. DATABASE
+======================================================== 55. DATABASE
 ========================================================
 
 Use PostgreSQL/Supabase architecture.
@@ -1946,8 +1900,7 @@ audit_logs
 
 settings
 
-========================================================
-56. DATABASE RELATIONSHIP
+======================================================== 56. DATABASE RELATIONSHIP
 ========================================================
 
 Core commerce flow:
@@ -1988,8 +1941,7 @@ WAREHOUSE
 ↓
 ONLINE INVENTORY
 
-========================================================
-57. RESPONSIVE DESIGN
+======================================================== 57. RESPONSIVE DESIGN
 ========================================================
 
 The website must be fully responsive.
@@ -2021,8 +1973,7 @@ Product page should have sticky mobile:
 PRICE
 ADD TO CART
 
-========================================================
-58. PERFORMANCE
+======================================================== 58. PERFORMANCE
 ========================================================
 
 3D must NOT destroy performance.
@@ -2043,8 +1994,7 @@ Do not load every 3D model on initial page load.
 
 Only load 3D models when visible/needed.
 
-========================================================
-59. ACCESSIBILITY
+======================================================== 59. ACCESSIBILITY
 ========================================================
 
 Support:
@@ -2059,8 +2009,7 @@ Reduced motion preference
 If user prefers reduced motion:
 disable heavy 3D/scroll animations.
 
-========================================================
-60. ANIMATION SYSTEM
+======================================================== 60. ANIMATION SYSTEM
 ========================================================
 
 Animations should be elegant.
@@ -2091,8 +2040,7 @@ Animation duration generally:
 
 Hero cinematic animation can be longer.
 
-========================================================
-61. DARK GLASS UI
+======================================================== 61. DARK GLASS UI
 ========================================================
 
 Use subtle:
@@ -2123,8 +2071,7 @@ Champagne gold
 Secondary:
 Muted bronze
 
-========================================================
-62. TYPOGRAPHY
+======================================================== 62. TYPOGRAPHY
 ========================================================
 
 Use a luxury serif font for major headings.
@@ -2143,8 +2090,7 @@ Avoid excessive uppercase text.
 
 Maintain excellent readability.
 
-========================================================
-63. FOOTER
+======================================================== 63. FOOTER
 ========================================================
 
 Footer:
@@ -2191,8 +2137,7 @@ CTA:
 
 JOIN THE K ESSENCE WORLD
 
-========================================================
-64. LEGAL PAGES
+======================================================== 64. LEGAL PAGES
 ========================================================
 
 Create placeholders for:
@@ -2209,8 +2154,7 @@ Do not invent legal claims.
 
 Make content editable through Admin CMS.
 
-========================================================
-65. SAMPLE DATA
+======================================================== 65. SAMPLE DATA
 ========================================================
 
 Create realistic DEMO products for development.
@@ -2250,8 +2194,7 @@ ratings
 reviews
 inventory
 
-========================================================
-66. ADMIN DEMO DATA
+======================================================== 66. ADMIN DEMO DATA
 ========================================================
 
 Create sample:
@@ -2270,8 +2213,7 @@ so the Admin Dashboard looks realistic during development.
 
 Clearly label demo data internally.
 
-========================================================
-67. API ARCHITECTURE
+======================================================== 67. API ARCHITECTURE
 ========================================================
 
 Use a clean service architecture.
@@ -2298,8 +2240,7 @@ Do not put all logic into one giant component.
 
 Use reusable services and hooks.
 
-========================================================
-68. ERROR HANDLING
+======================================================== 68. ERROR HANDLING
 ========================================================
 
 Every important operation should have:
@@ -2323,8 +2264,7 @@ Show elegant error messages.
 
 Do not show raw database errors to customers.
 
-========================================================
-69. ADMIN SEARCH
+======================================================== 69. ADMIN SEARCH
 ========================================================
 
 Admin global search should search:
@@ -2337,8 +2277,7 @@ Invoice
 Batch
 Production order
 
-========================================================
-70. NOTIFICATIONS
+======================================================== 70. NOTIFICATIONS
 ========================================================
 
 Create notification system.
@@ -2362,8 +2301,7 @@ New return
 New support ticket
 Production QC failure
 
-========================================================
-71. PRODUCT RECOMMENDATION
+======================================================== 71. PRODUCT RECOMMENDATION
 ========================================================
 
 Create architecture for recommendations.
@@ -2382,8 +2320,7 @@ Example:
 
 "If you like Oud Royale, you may also like..."
 
-========================================================
-72. FUTURE AI SUPPORT
+======================================================== 72. FUTURE AI SUPPORT
 ========================================================
 
 Keep architecture ready for future AI fragrance assistant.
@@ -2407,8 +2344,7 @@ Do NOT require AI API initially.
 
 Build the architecture so it can be integrated later.
 
-========================================================
-73. ADMIN MOBILE RESPONSIVENESS
+======================================================== 73. ADMIN MOBILE RESPONSIVENESS
 ========================================================
 
 Admin dashboard must also work on tablet/mobile.
@@ -2421,8 +2357,7 @@ collapsible sidebar
 
 Tables should become cards where necessary.
 
-========================================================
-74. BRAND EXPERIENCE
+======================================================== 74. BRAND EXPERIENCE
 ========================================================
 
 The website should communicate:
@@ -2445,8 +2380,7 @@ Possible phrases:
 
 These are design copy suggestions only and can be changed from CMS.
 
-========================================================
-75. IMPORTANT DESIGN RULE
+======================================================== 75. IMPORTANT DESIGN RULE
 ========================================================
 
 DO NOT make this website look like:
@@ -2462,14 +2396,11 @@ The ADMIN FUNCTIONALITY may be enterprise-grade like large e-commerce platforms.
 
 But the CUSTOMER WEBSITE must feel like:
 
-LUXURY FRAGRANCE HOUSE
-+
-CINEMATIC EXPERIENCE
-+
+LUXURY FRAGRANCE HOUSE +
+CINEMATIC EXPERIENCE +
 3D DIGITAL SHOWROOM
 
-========================================================
-76. IMPORTANT 3D RULE
+======================================================== 76. IMPORTANT 3D RULE
 ========================================================
 
 3D is a core feature, but usability and performance come first.
@@ -2497,8 +2428,7 @@ optimized 3D
 Low-end devices:
 fallback animation/static optimized image
 
-========================================================
-77. NO FAKE FUNCTIONALITY
+======================================================== 77. NO FAKE FUNCTIONALITY
 ========================================================
 
 This is a real production-oriented project.
@@ -2531,8 +2461,7 @@ Coupon → must actually validate.
 
 Stock → must change after order.
 
-========================================================
-78. DEVELOPMENT APPROACH
+======================================================== 78. DEVELOPMENT APPROACH
 ========================================================
 
 Build the application in logical modules.
@@ -2569,8 +2498,7 @@ Performance + security + testing.
 
 Do not sacrifice architecture quality just to create a visual prototype quickly.
 
-========================================================
-79. FINAL UX REQUIREMENT
+======================================================== 79. FINAL UX REQUIREMENT
 ========================================================
 
 When a visitor opens the website, the first impression should be:
@@ -2595,8 +2523,7 @@ When the owner logs into Admin:
 
 That is the target experience.
 
-========================================================
-80. FINAL IMPLEMENTATION REQUIREMENT
+======================================================== 80. FINAL IMPLEMENTATION REQUIREMENT
 ========================================================
 
 Before considering the project complete, verify:
