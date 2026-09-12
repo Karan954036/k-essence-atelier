@@ -1,11 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Search, User, Heart, ShoppingBag, Menu, X } from "lucide-react";
-import logo from "@/assets/k-essence-logo.asset.json";
+// Use the local public asset for the logo to avoid preview-hosted URLs
+const LOGO_SRC = "/k-essence-logo.jpeg";
 import { megaMenus, simpleLinks } from "@/lib/navigation";
 import { useCart } from "@/lib/cart-store";
 import { useWishlist } from "@/lib/wishlist-store";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
 
 export function AnnouncementBar({
   text = "Crafted in India • Premium Fragrances • Signature Attars",
@@ -31,6 +33,8 @@ export function Header() {
 
   const { openCart, totalItems } = useCart();
   const { totalWishlist } = useWishlist();
+  const { user, signOut } = useAuth();
+  const [acctOpen, setAcctOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -69,11 +73,7 @@ export function Header() {
         </div>
 
         <Link to="/" className="flex shrink-0 items-center gap-3" aria-label="K ESSENCE home">
-          <img
-            src={logo.url}
-            alt="K ESSENCE"
-            className="h-11 w-11 rounded-full object-cover sm:h-12 sm:w-12"
-          />
+          <img src={LOGO_SRC} alt="K ESSENCE" className="h-11 w-11 rounded-full object-cover sm:h-12 sm:w-12" />
           <span className="font-display text-lg tracking-[0.34em] text-champagne sm:text-xl">
             K ESSENCE
           </span>
@@ -87,9 +87,37 @@ export function Header() {
           >
             <Search className="h-5 w-5" />
           </Link>
-          <Link to="/" aria-label="Account" className="hidden transition hover:text-gold sm:block">
-            <User className="h-5 w-5" />
-          </Link>
+          {!user ? (
+            <div className="hidden sm:flex items-center gap-3">
+              <Link to="/login" className="transition hover:text-gold">
+                Login
+              </Link>
+              <Link to="/register" className="transition hover:text-gold">
+                Register
+              </Link>
+            </div>
+          ) : (
+            <div className="relative hidden sm:block">
+              <button
+                onClick={() => setAcctOpen((s) => !s)}
+                className="transition hover:text-gold"
+                aria-label="Account menu"
+              >
+                <User className="h-5 w-5" />
+              </button>
+              {acctOpen && (
+                <div className="absolute right-0 mt-2 w-44 rounded-md border border-border bg-background p-2 shadow-lg">
+                  <div className="px-3 py-2 text-sm text-foreground/80">{user.user_metadata?.full_name ?? user.email}</div>
+                  <Link to="/account" className="block px-3 py-2 text-sm hover:text-gold">
+                    Account
+                  </Link>
+                  <button onClick={() => signOut()} className="block w-full text-left px-3 py-2 text-sm hover:text-red-500">
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
           <Link
             to="/shop"
             search={{ sort: "rating" }}

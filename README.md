@@ -1167,7 +1167,8 @@ Video
 Instagram URL
 Caption
 
-======================================================== 35. ADMIN PANEL
+======================================================== 
+35. ADMIN PANEL
 ========================================================
 
 Create a completely separate Admin application.
