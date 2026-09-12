@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook, Youtube } from "lucide-react";
-import logo from "@/assets/k-essence-logo.asset.json";
+const LOGO_SRC = "/k-essence-logo.jpeg";
 
 const columns = [
   { title: "Shop", items: ["Perfumes", "Attars", "Oud", "Collections", "Gift Sets"] },
@@ -14,7 +14,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 lg:grid-cols-[1.3fr_repeat(3,minmax(0,1fr))] lg:px-8">
         <div>
           <div className="flex items-center gap-3">
-            <img src={logo.url} alt="K ESSENCE" className="h-12 w-12 rounded-full object-cover" />
+            <img src={LOGO_SRC} alt="K ESSENCE" className="h-12 w-12 rounded-full object-cover" />
             <span className="font-display text-xl tracking-[0.3em] text-champagne">K ESSENCE</span>
           </div>
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
