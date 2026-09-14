@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-type SetupInput = { email: string; password: string; fullName?: string };
+type SetupInput = { email: string; password: string; fullName?: string | undefined };
 
 function validateCredentials(input: SetupInput): SetupInput {
   const email = String(input?.email ?? "")
