@@ -1,409 +1,421 @@
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5";
-  };
+    PostgrestVersion: "14.5"
+  }
   public: {
     Tables: {
       categories: {
         Row: {
-          created_at: string;
-          description: string | null;
-          id: string;
-          kind: string;
-          name: string;
-          slug: string;
-          sort_order: number;
-        };
+          created_at: string
+          description: string | null
+          id: string
+          kind: string
+          name: string
+          slug: string
+          sort_order: number
+        }
         Insert: {
-          created_at?: string;
-          description?: string | null;
-          id?: string;
-          kind?: string;
-          name: string;
-          slug: string;
-          sort_order?: number;
-        };
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          name: string
+          slug: string
+          sort_order?: number
+        }
         Update: {
-          created_at?: string;
-          description?: string | null;
-          id?: string;
-          kind?: string;
-          name?: string;
-          slug?: string;
-          sort_order?: number;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       collections: {
         Row: {
-          created_at: string;
-          id: string;
-          is_featured: boolean;
-          slug: string;
-          sort_order: number;
-          tagline: string | null;
-          tint: string;
-          title: string;
-        };
+          created_at: string
+          id: string
+          is_featured: boolean
+          slug: string
+          sort_order: number
+          tagline: string | null
+          tint: string
+          title: string
+        }
         Insert: {
-          created_at?: string;
-          id?: string;
-          is_featured?: boolean;
-          slug: string;
-          sort_order?: number;
-          tagline?: string | null;
-          tint?: string;
-          title: string;
-        };
+          created_at?: string
+          id?: string
+          is_featured?: boolean
+          slug: string
+          sort_order?: number
+          tagline?: string | null
+          tint?: string
+          title: string
+        }
         Update: {
-          created_at?: string;
-          id?: string;
-          is_featured?: boolean;
-          slug?: string;
-          sort_order?: number;
-          tagline?: string | null;
-          tint?: string;
-          title?: string;
-        };
-        Relationships: [];
-      };
+          created_at?: string
+          id?: string
+          is_featured?: boolean
+          slug?: string
+          sort_order?: number
+          tagline?: string | null
+          tint?: string
+          title?: string
+        }
+        Relationships: []
+      }
       product_media: {
         Row: {
-          alt: string | null;
-          id: string;
-          kind: string;
-          product_id: string;
-          sort_order: number;
-          url: string;
-        };
+          alt: string | null
+          id: string
+          kind: string
+          product_id: string
+          sort_order: number
+          url: string
+        }
         Insert: {
-          alt?: string | null;
-          id?: string;
-          kind?: string;
-          product_id: string;
-          sort_order?: number;
-          url: string;
-        };
+          alt?: string | null
+          id?: string
+          kind?: string
+          product_id: string
+          sort_order?: number
+          url: string
+        }
         Update: {
-          alt?: string | null;
-          id?: string;
-          kind?: string;
-          product_id?: string;
-          sort_order?: number;
-          url?: string;
-        };
+          alt?: string | null
+          id?: string
+          kind?: string
+          product_id?: string
+          sort_order?: number
+          url?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "product_media_product_id_fkey";
-            columns: ["product_id"];
-            isOneToOne: false;
-            referencedRelation: "products";
-            referencedColumns: ["id"];
+            foreignKeyName: "product_media_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       product_notes: {
         Row: {
-          id: string;
-          layer: string;
-          name: string;
-          product_id: string;
-          sort_order: number;
-        };
+          id: string
+          layer: string
+          name: string
+          product_id: string
+          sort_order: number
+        }
         Insert: {
-          id?: string;
-          layer: string;
-          name: string;
-          product_id: string;
-          sort_order?: number;
-        };
+          id?: string
+          layer: string
+          name: string
+          product_id: string
+          sort_order?: number
+        }
         Update: {
-          id?: string;
-          layer?: string;
-          name?: string;
-          product_id?: string;
-          sort_order?: number;
-        };
+          id?: string
+          layer?: string
+          name?: string
+          product_id?: string
+          sort_order?: number
+        }
         Relationships: [
           {
-            foreignKeyName: "product_notes_product_id_fkey";
-            columns: ["product_id"];
-            isOneToOne: false;
-            referencedRelation: "products";
-            referencedColumns: ["id"];
+            foreignKeyName: "product_notes_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       product_variants: {
         Row: {
-          created_at: string;
-          id: string;
-          label: string;
-          mrp: number;
-          price: number;
-          product_id: string;
-          sku: string | null;
-          sort_order: number;
-          stock: number;
-        };
+          created_at: string
+          id: string
+          label: string
+          mrp: number
+          price: number
+          product_id: string
+          sku: string | null
+          sort_order: number
+          stock: number
+        }
         Insert: {
-          created_at?: string;
-          id?: string;
-          label: string;
-          mrp?: number;
-          price?: number;
-          product_id: string;
-          sku?: string | null;
-          sort_order?: number;
-          stock?: number;
-        };
+          created_at?: string
+          id?: string
+          label: string
+          mrp?: number
+          price?: number
+          product_id: string
+          sku?: string | null
+          sort_order?: number
+          stock?: number
+        }
         Update: {
-          created_at?: string;
-          id?: string;
-          label?: string;
-          mrp?: number;
-          price?: number;
-          product_id?: string;
-          sku?: string | null;
-          sort_order?: number;
-          stock?: number;
-        };
+          created_at?: string
+          id?: string
+          label?: string
+          mrp?: number
+          price?: number
+          product_id?: string
+          sku?: string | null
+          sort_order?: number
+          stock?: number
+        }
         Relationships: [
           {
-            foreignKeyName: "product_variants_product_id_fkey";
-            columns: ["product_id"];
-            isOneToOne: false;
-            referencedRelation: "products";
-            referencedColumns: ["id"];
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
           },
-        ];
-      };
+        ]
+      }
       products: {
         Row: {
-          badge: string | null;
-          category_id: string | null;
-          collection_id: string | null;
-          created_at: string;
-          description: string | null;
-          family: string | null;
-          id: string;
-          in_stock: boolean;
-          is_active: boolean;
-          is_demo: boolean;
-          kind: string;
-          longevity: number;
-          model_url: string | null;
-          mrp: number;
-          name: string;
-          price: number;
-          projection: number;
-          rating: number;
-          review_count: number;
-          sillage: number;
-          slug: string;
-          sort_order: number;
-          tint: string;
-        };
+          badge: string | null
+          category_id: string | null
+          collection_id: string | null
+          created_at: string
+          description: string | null
+          family: string | null
+          id: string
+          in_stock: boolean
+          is_active: boolean
+          is_demo: boolean
+          kind: string
+          longevity: number
+          model_url: string | null
+          mrp: number
+          name: string
+          price: number
+          projection: number
+          rating: number
+          review_count: number
+          sillage: number
+          slug: string
+          sort_order: number
+          tint: string
+        }
         Insert: {
-          badge?: string | null;
-          category_id?: string | null;
-          collection_id?: string | null;
-          created_at?: string;
-          description?: string | null;
-          family?: string | null;
-          id?: string;
-          in_stock?: boolean;
-          is_active?: boolean;
-          is_demo?: boolean;
-          kind?: string;
-          longevity?: number;
-          model_url?: string | null;
-          mrp?: number;
-          name: string;
-          price?: number;
-          projection?: number;
-          rating?: number;
-          review_count?: number;
-          sillage?: number;
-          slug: string;
-          sort_order?: number;
-          tint?: string;
-        };
+          badge?: string | null
+          category_id?: string | null
+          collection_id?: string | null
+          created_at?: string
+          description?: string | null
+          family?: string | null
+          id?: string
+          in_stock?: boolean
+          is_active?: boolean
+          is_demo?: boolean
+          kind?: string
+          longevity?: number
+          model_url?: string | null
+          mrp?: number
+          name: string
+          price?: number
+          projection?: number
+          rating?: number
+          review_count?: number
+          sillage?: number
+          slug: string
+          sort_order?: number
+          tint?: string
+        }
         Update: {
-          badge?: string | null;
-          category_id?: string | null;
-          collection_id?: string | null;
-          created_at?: string;
-          description?: string | null;
-          family?: string | null;
-          id?: string;
-          in_stock?: boolean;
-          is_active?: boolean;
-          is_demo?: boolean;
-          kind?: string;
-          longevity?: number;
-          model_url?: string | null;
-          mrp?: number;
-          name?: string;
-          price?: number;
-          projection?: number;
-          rating?: number;
-          review_count?: number;
-          sillage?: number;
-          slug?: string;
-          sort_order?: number;
-          tint?: string;
-        };
+          badge?: string | null
+          category_id?: string | null
+          collection_id?: string | null
+          created_at?: string
+          description?: string | null
+          family?: string | null
+          id?: string
+          in_stock?: boolean
+          is_active?: boolean
+          is_demo?: boolean
+          kind?: string
+          longevity?: number
+          model_url?: string | null
+          mrp?: number
+          name?: string
+          price?: number
+          projection?: number
+          rating?: number
+          review_count?: number
+          sillage?: number
+          slug?: string
+          sort_order?: number
+          tint?: string
+        }
         Relationships: [
           {
-            foreignKeyName: "products_category_id_fkey";
-            columns: ["category_id"];
-            isOneToOne: false;
-            referencedRelation: "categories";
-            referencedColumns: ["id"];
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "products_collection_id_fkey";
-            columns: ["collection_id"];
-            isOneToOne: false;
-            referencedRelation: "collections";
-            referencedColumns: ["id"];
+            foreignKeyName: "products_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
           },
-        ];
-      };
-    };
+        ]
+      }
+    }
     Views: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Functions: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     Enums: {
-      [_ in never]: never;
-    };
+      [_ in never]: never
+    }
     CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
-};
+      [_ in never]: never
+    }
+  }
+}
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">];
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
       DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R;
+      Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] & DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R;
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
       }
       ? R
       : never
-    : never;
+    : never
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I;
+      Insert: infer I
     }
     ? I
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I;
+        Insert: infer I
       }
       ? I
       : never
-    : never;
+    : never
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    keyof DefaultSchema["Tables"] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
   TableName extends (DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U;
+      Update: infer U
     }
     ? U
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U;
+        Update: infer U
       }
       ? U
       : never
-    : never;
+    : never
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    keyof DefaultSchema["Enums"] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
   EnumName extends (DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never;
+    : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    keyof DefaultSchema["CompositeTypes"] | { schema: keyof DatabaseWithoutInternals },
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
+    schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
+  schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never;
+    : never
 
 export const Constants = {
   public: {
     Enums: {},
   },
-} as const;
+} as const
