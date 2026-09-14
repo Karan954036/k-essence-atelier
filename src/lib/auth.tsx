@@ -34,7 +34,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     })();
 
-    const { subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       setIsLoading(false);
     });
@@ -61,13 +63,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function sendPasswordReset(email: string) {
-    const redirectTo = typeof window !== "undefined" ? `${window.location.origin}/reset-password` : undefined;
+    const redirectTo =
+      typeof window !== "undefined" ? `${window.location.origin}/reset-password` : "";
     return supabase.auth.resetPasswordForEmail(email, { redirectTo });
   }
 
   async function getSessionFromUrl() {
-    if (!supabase?.auth?.getSessionFromUrl) return null;
-    return supabase.auth.getSessionFromUrl();
+    return supabase.auth.getSession();
   }
 
   return (
