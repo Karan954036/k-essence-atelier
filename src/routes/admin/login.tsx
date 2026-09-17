@@ -45,7 +45,7 @@ function AdminLogin() {
         setError("This account does not have admin access.");
         return;
       }
-      window.location.assign("/admin");
+      window.location.assign("/admin/dashboard");
     } finally {
       setBusy(false);
     }
