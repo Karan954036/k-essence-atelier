@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { isOrderStatus } from "@/lib/order-status";
 
 type SetupInput = { email: string; password: string; fullName?: string | undefined };
 
@@ -210,16 +211,21 @@ export const listProducts = createServerFn({ method: "GET" })
 
 export const upsertProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: Record<string, unknown>) => input)
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("products").upsert(data).select("id");
+    const { error } = await supabaseAdmin
+      .from("products")
+      .upsert(data as never)
+      .select("id");
     if (error) throw new Error(error.message);
     return { ok: true };
   });
 
 export const deleteProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string }) => input)
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -241,16 +247,21 @@ export const listCategories = createServerFn({ method: "GET" })
 
 export const upsertCategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: Record<string, unknown>) => input)
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("categories").upsert(data).select("id");
+    const { error } = await supabaseAdmin
+      .from("categories")
+      .upsert(data as never)
+      .select("id");
     if (error) throw new Error(error.message);
     return { ok: true };
   });
 
 export const deleteCategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string }) => input)
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -267,22 +278,113 @@ export const listOrders = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data, error } = await supabaseAdmin
       .from("orders")
-      .select("*, order_items(*)")
+      .select("*, order_items(*), payments(*)")
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
     return data ?? [];
   });
 
-export const updateOrderStatus = createServerFn({ method: "POST" })
+/** Admin: one order with items, payment, invoice and status history */
+export const getOrder = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string }) => ({ id: String(input?.id ?? "") }))
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: order, error } = await supabaseAdmin
+      .from("orders")
+      .select("*, order_items(*), payments(*), invoices(*, invoice_items(*))")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    if (!order) throw new Error("Order not found");
+
+    const { data: history, error: hErr } = await supabaseAdmin
+      .from("order_status_history")
+      .select("*")
+      .eq("order_id", data.id)
+      .order("created_at", { ascending: true });
+    if (hErr) throw new Error(hErr.message);
+
+    return { order, history: history ?? [] };
+  });
+
+export const updateOrderStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string; status: string; note?: string }) => {
+    const status = String(input?.status ?? "");
+    if (!isOrderStatus(status)) throw new Error("Unknown order status");
+    return { id: String(input?.id ?? ""), status, note: input?.note?.trim() || null };
+  })
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: existing, error: exErr } = await supabaseAdmin
+      .from("orders")
+      .select("id, status")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (exErr) throw new Error(exErr.message);
+    if (!existing) throw new Error("Order not found");
+    if (existing.status === data.status) return { ok: true, unchanged: true };
+
     const { error } = await supabaseAdmin
       .from("orders")
       .update({ status: data.status })
       .eq("id", data.id);
     if (error) throw new Error(error.message);
+
+    const { error: hErr } = await supabaseAdmin.from("order_status_history").insert({
+      order_id: data.id,
+      from_status: existing.status,
+      to_status: data.status,
+      note: data.note,
+      changed_by: context.userId,
+    });
+    if (hErr) throw new Error(hErr.message);
+
+    // Delivered COD orders are settled on delivery.
+    if (data.status === "delivered") {
+      await supabaseAdmin
+        .from("orders")
+        .update({ payment_status: "paid" })
+        .eq("id", data.id)
+        .eq("payment_method", "cod");
+      await supabaseAdmin
+        .from("payments")
+        .update({ status: "paid", paid_at: new Date().toISOString() })
+        .eq("order_id", data.id)
+        .eq("status", "pending");
+    }
+
+    return { ok: true };
+  });
+
+/** Admin: record that a COD payment has been collected */
+export const markPaymentReceived = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string; reference?: string }) => ({
+    id: String(input?.id ?? ""),
+    reference: input?.reference?.trim() || null,
+  }))
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const now = new Date().toISOString();
+
+    const { error } = await supabaseAdmin
+      .from("orders")
+      .update({ payment_status: "paid" })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+
+    const { error: pErr } = await supabaseAdmin
+      .from("payments")
+      .update({ status: "paid", paid_at: now, reference: data.reference })
+      .eq("order_id", data.id);
+    if (pErr) throw new Error(pErr.message);
+
     return { ok: true };
   });
 
@@ -302,6 +404,11 @@ export const listInventory = createServerFn({ method: "GET" })
 
 export const adjustStock = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: { variant_id: string; change: number; reason?: string }) => ({
+    variant_id: String(input?.variant_id ?? ""),
+    change: Number(input?.change ?? 0),
+    reason: input?.reason?.trim() || "adjustment",
+  }))
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -314,17 +421,20 @@ export const adjustStock = createServerFn({ method: "POST" })
       .maybeSingle();
     if (cv) throw new Error(cv.message);
     const currentStock = Number(current?.stock ?? 0);
-    const resulting = currentStock + Number(data.change);
+    const resulting = Math.max(0, currentStock + data.change);
 
-    const { error: upErr } = await supabaseAdmin.from("product_variants").update({ stock: resulting }).eq("id", data.variant_id);
+    const { error: upErr } = await supabaseAdmin
+      .from("product_variants")
+      .update({ stock: resulting })
+      .eq("id", data.variant_id);
     if (upErr) throw new Error(upErr.message);
 
     const { error: smErr } = await supabaseAdmin.from("stock_movements").insert({
       variant_id: data.variant_id,
       change: data.change,
       resulting_stock: resulting,
-      reason: data.reason ?? "adjustment",
-      created_by: data.userId ?? null,
+      reason: data.reason,
+      created_by: context.userId,
     });
     if (smErr) throw new Error(smErr.message);
 
