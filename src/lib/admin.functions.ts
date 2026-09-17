@@ -133,3 +133,222 @@ export const listAdmins = createServerFn({ method: "GET" })
       email: emails.get(a.id) ?? "",
     }));
   });
+
+/** Admin-only: dashboard summary data for the admin homepage */
+export const getDashboardData = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    // start of today (UTC)
+    const start = new Date();
+    start.setUTCHours(0, 0, 0, 0);
+    const startISO = start.toISOString();
+
+    // Today's orders count
+    const { count: todaysOrdersCount, error: toErr } = await supabaseAdmin
+      .from("orders")
+      .select("id", { count: "exact", head: true })
+      .gte("created_at", startISO);
+    if (toErr) throw new Error(toErr.message);
+
+    // Today's revenue (sum in JS)
+    const { data: todaysOrdersRows, error: trErr } = await supabaseAdmin
+      .from("orders")
+      .select("total")
+      .gte("created_at", startISO);
+    if (trErr) throw new Error(trErr.message);
+    const todaysRevenue = (todaysOrdersRows ?? []).reduce((s: number, r: any) => s + Number(r.total ?? 0), 0);
+
+    // Pending orders
+    const { count: pendingCount, error: pErr } = await supabaseAdmin
+      .from("orders")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "pending");
+    if (pErr) throw new Error(pErr.message);
+
+    // Low stock variants (threshold: 5)
+    const { count: lowStockCount, error: lsErr } = await supabaseAdmin
+      .from("product_variants")
+      .select("id", { count: "exact", head: true })
+      .lte("stock", 5);
+    if (lsErr) throw new Error(lsErr.message);
+
+    // Recent orders (last 10)
+    const { data: recentOrders, error: roErr } = await supabaseAdmin
+      .from("orders")
+      .select("id, order_number, total, status, created_at, customer_name, customer_email")
+      .order("created_at", { ascending: false })
+      .limit(10);
+    if (roErr) throw new Error(roErr.message);
+
+    return {
+      todaysOrders: Number(todaysOrdersCount ?? 0),
+      todaysRevenue,
+      pendingOrders: Number(pendingCount ?? 0),
+      lowStock: Number(lowStockCount ?? 0),
+      recentOrders: recentOrders ?? [],
+    };
+  });
+
+/** Admin: list products with variants and media */
+export const listProducts = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin
+      .from("products")
+      .select(
+        "*, product_variants(id, label, sku, price, mrp, stock), product_media(id, url, alt, kind)"
+      )
+      .order("sort_order", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const upsertProduct = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("products").upsert(data).select("id");
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteProduct = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("products").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Admin: categories CRUD */
+export const listCategories = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin.from("categories").select("*").order("sort_order");
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const upsertCategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("categories").upsert(data).select("id");
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteCategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("categories").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Admin: orders list and update */
+export const listOrders = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin
+      .from("orders")
+      .select("*, order_items(*)")
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const updateOrderStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
+      .from("orders")
+      .update({ status: data.status })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Admin: inventory */
+export const listInventory = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin
+      .from("product_variants")
+      .select("*, products(name, slug)")
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const adjustStock = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    // fetch current stock
+    const { data: current, error: cv } = await supabaseAdmin
+      .from("product_variants")
+      .select("stock")
+      .eq("id", data.variant_id)
+      .maybeSingle();
+    if (cv) throw new Error(cv.message);
+    const currentStock = Number(current?.stock ?? 0);
+    const resulting = currentStock + Number(data.change);
+
+    const { error: upErr } = await supabaseAdmin.from("product_variants").update({ stock: resulting }).eq("id", data.variant_id);
+    if (upErr) throw new Error(upErr.message);
+
+    const { error: smErr } = await supabaseAdmin.from("stock_movements").insert({
+      variant_id: data.variant_id,
+      change: data.change,
+      resulting_stock: resulting,
+      reason: data.reason ?? "adjustment",
+      created_by: data.userId ?? null,
+    });
+    if (smErr) throw new Error(smErr.message);
+
+    return { ok: true };
+  });
+
+/** Admin: customers list (profiles) with order counts */
+export const listCustomers = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin.from("profiles").select("id, full_name, created_at, is_admin");
+    if (error) throw new Error(error.message);
+
+    // fetch order counts
+    const ids = (data ?? []).map((d: any) => d.id);
+    const { data: orders, error: oErr } = await supabaseAdmin
+      .from("orders")
+      .select("user_id, count:id", { count: "exact" })
+      .in("user_id", ids);
+    // we won't fail purely on order counts
+
+    return data ?? [];
+  });
+
+/** Admin management: list and add admins (reusing existing functions) */

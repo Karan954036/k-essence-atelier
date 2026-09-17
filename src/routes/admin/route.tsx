@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router"
 import { AdminShell } from "@/components/admin/AdminShell";
 import { useAdmin } from "@/lib/use-admin";
 import { useEffect } from "react";
+import AdminDashboard from "./dashboard";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
@@ -21,12 +22,20 @@ function AdminLayout() {
   }, [isPublic, isLoading, user, isAdmin]);
 
   if (isPublic) return <Outlet />;
-
   if (isLoading || !user || !isAdmin) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">
         Checking admin access…
       </div>
+    );
+  }
+
+  // Render dashboard directly at /admin for a better default landing.
+  if (pathname === "/admin") {
+    return (
+      <AdminShell>
+        <AdminDashboard />
+      </AdminShell>
     );
   }
 
