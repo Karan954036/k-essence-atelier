@@ -19,7 +19,7 @@ const links = [
   { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
   { to: "/admin/inventory", label: "Inventory", icon: Boxes },
   { to: "/admin/customers", label: "Customers", icon: Users },
-  { to: "/admin/admins", label: "Admin Management", icon: ShieldCheck },
+  { to: "/admin/admin-management", label: "Admin Management", icon: ShieldCheck },
 ] as const;
 
 export function AdminShell({ children }: { children: React.ReactNode }) {

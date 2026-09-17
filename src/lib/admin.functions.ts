@@ -210,16 +210,21 @@ export const listProducts = createServerFn({ method: "GET" })
 
 export const upsertProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: Record<string, unknown>) => input)
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("products").upsert(data).select("id");
+    const { error } = await supabaseAdmin
+      .from("products")
+      .upsert(data as never)
+      .select("id");
     if (error) throw new Error(error.message);
     return { ok: true };
   });
 
 export const deleteProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string }) => input)
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -241,16 +246,21 @@ export const listCategories = createServerFn({ method: "GET" })
 
 export const upsertCategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: Record<string, unknown>) => input)
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error } = await supabaseAdmin.from("categories").upsert(data).select("id");
+    const { error } = await supabaseAdmin
+      .from("categories")
+      .upsert(data as never)
+      .select("id");
     if (error) throw new Error(error.message);
     return { ok: true };
   });
 
 export const deleteCategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string }) => input)
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
