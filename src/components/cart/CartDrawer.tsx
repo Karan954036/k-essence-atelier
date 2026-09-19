@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { ShoppingBag, Trash2, Plus, Minus, ArrowRight, ShieldCheck, Truck } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useCart } from "@/lib/cart-store";
@@ -22,10 +22,11 @@ export function CartDrawer() {
 
   const progressPercent = Math.min(100, Math.round((subtotal / freeShippingThreshold) * 100));
 
+  const navigate = useNavigate();
+
   const handleCheckout = () => {
-    toast.success("Ready for Checkout", {
-      description: `Proceeding with ${totalItems} item(s) • Total ${inr(subtotal)}. Payment gateway integration scheduled in Phase 3.`,
-    });
+    setIsCartOpen(false);
+    navigate({ to: "/checkout" });
   };
 
   return (

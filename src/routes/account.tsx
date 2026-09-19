@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouterState, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/site/SiteShell";
 import { useAuth } from "@/lib/auth";
 import { useEffect } from "react";
@@ -8,6 +8,7 @@ export const Route = createFileRoute("/account")({
 });
 
 function Account() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user, isLoading, signOut } = useAuth();
 
   useEffect(() => {
@@ -17,7 +18,17 @@ function Account() {
     }
   }, [isLoading, user]);
 
-  if (isLoading || !user) return <SiteShell><div className="mx-auto max-w-md px-4 py-12">Loading...</div></SiteShell>;
+  if (pathname !== "/account") {
+    return <Outlet />;
+  }
+
+  if (isLoading || !user) {
+    return (
+      <SiteShell>
+        <div className="mx-auto max-w-md px-4 py-12">Loading...</div>
+      </SiteShell>
+    );
+  }
 
   const fullName = user.user_metadata?.full_name ?? "";
 
@@ -27,12 +38,20 @@ function Account() {
         <h1 className="mb-4 text-2xl font-semibold">Your account</h1>
         <p className="mb-2">Name: {fullName}</p>
         <p className="mb-4">Email: {user.email}</p>
-        <button
-          className="inline-flex items-center rounded-md bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground"
-          onClick={() => signOut()}
-        >
-          Sign out
-        </button>
+        <div className="flex items-center gap-3">
+          <Link
+            to="/account/orders"
+            className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            My Orders
+          </Link>
+          <button
+            className="inline-flex items-center rounded-md bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground"
+            onClick={() => signOut()}
+          >
+            Sign out
+          </button>
+        </div>
       </div>
     </SiteShell>
   );
