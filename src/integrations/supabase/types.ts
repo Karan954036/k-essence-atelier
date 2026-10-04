@@ -726,7 +726,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      admin_accept_all_received: { Args: never; Returns: number }
+      admin_accept_all_received: { Args: { _admin: string }; Returns: number }
       admin_sales_daily: {
         Args: { _from: string; _to: string }
         Returns: {
