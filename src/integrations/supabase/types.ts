@@ -726,6 +726,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_accept_all_received: { Args: never; Returns: number }
+      admin_sales_daily: {
+        Args: { _from: string; _to: string }
+        Returns: {
+          day: string
+          orders: number
+          revenue: number
+        }[]
+      }
       is_admin: { Args: { _user_id?: string }; Returns: boolean }
     }
     Enums: {
