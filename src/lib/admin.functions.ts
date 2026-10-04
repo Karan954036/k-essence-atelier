@@ -166,7 +166,7 @@ export const getDashboardData = createServerFn({ method: "GET" })
     const { count: pendingCount, error: pErr } = await supabaseAdmin
       .from("orders")
       .select("id", { count: "exact", head: true })
-      .eq("status", "pending");
+      .eq("status", "received");
     if (pErr) throw new Error(pErr.message);
 
     // Low stock variants (threshold: 5)
@@ -355,7 +355,7 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
         .from("payments")
         .update({ status: "paid", paid_at: new Date().toISOString() })
         .eq("order_id", data.id)
-        .eq("status", "pending");
+        .eq("status", "received");
     }
 
     return { ok: true };
@@ -462,3 +462,57 @@ export const listCustomers = createServerFn({ method: "GET" })
   });
 
 /** Admin management: list and add admins (reusing existing functions) */
+
+/** Admin: accept every order still in "received" in one database operation. */
+export const acceptAllReceivedOrders = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await (supabaseAdmin as any).rpc("admin_accept_all_received", {
+      _admin: context.userId,
+    });
+    if (error) throw new Error(error.message);
+    return { accepted: Number(data ?? 0) };
+  });
+
+const ANALYTICS_RANGES = { today: 1, "7d": 7, "30d": 30, "3m": 91, "6m": 182 } as const;
+export type AnalyticsRange = keyof typeof ANALYTICS_RANGES;
+
+/** Admin: daily orders/revenue aggregated in the database (IST days; excludes cancelled/returned/RTO). */
+export const getSalesAnalytics = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { range: string }) => {
+    const range = String(input?.range ?? "30d");
+    if (!(range in ANALYTICS_RANGES)) throw new Error("Unknown range");
+    return { range: range as AnalyticsRange };
+  })
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const istToday = new Date(Date.now() + 5.5 * 3600_000).toISOString().slice(0, 10);
+    const days = ANALYTICS_RANGES[data.range];
+    const from = new Date(`${istToday}T00:00:00Z`);
+    from.setUTCDate(from.getUTCDate() - (days - 1));
+    const { data: rows, error } = await (supabaseAdmin as any).rpc("admin_sales_daily", {
+      _from: from.toISOString().slice(0, 10),
+      _to: istToday,
+    });
+    if (error) throw new Error(error.message);
+    const daily = ((rows ?? []) as any[]).map((r) => ({
+      day: String(r.day),
+      orders: Number(r.orders ?? 0),
+      revenue: Number(r.revenue ?? 0),
+    }));
+    const totalOrders = daily.reduce((s, r) => s + r.orders, 0);
+    const totalRevenue = daily.reduce((s, r) => s + r.revenue, 0);
+    const today = daily.find((r) => r.day === istToday) ?? { orders: 0, revenue: 0 };
+    return {
+      daily,
+      totalOrders,
+      totalRevenue,
+      averageOrderValue: totalOrders ? totalRevenue / totalOrders : 0,
+      todaysOrders: today.orders,
+      todaysRevenue: today.revenue,
+    };
+  });

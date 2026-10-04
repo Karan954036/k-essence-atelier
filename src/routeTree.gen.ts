@@ -20,6 +20,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as AccountOrdersRouteImport } from './routes/account/orders'
 import { Route as AdminAdminManagementRouteImport } from './routes/admin/admin-management'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
 import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as AdminCustomersRouteImport } from './routes/admin/customers'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
@@ -85,6 +86,11 @@ const AccountOrdersRoute = AccountOrdersRouteImport.update({
 const AdminAdminManagementRoute = AdminAdminManagementRouteImport.update({
   id: '/admin-management',
   path: '/admin-management',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/account/orders': typeof AccountOrdersRouteWithChildren
   '/admin/admin-management': typeof AdminAdminManagementRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/account/orders': typeof AccountOrdersRouteWithChildren
   '/admin/admin-management': typeof AdminAdminManagementRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -205,6 +213,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/account/orders': typeof AccountOrdersRouteWithChildren
   '/admin/admin-management': typeof AdminAdminManagementRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -231,6 +240,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/account/orders'
     | '/admin/admin-management'
+    | '/admin/analytics'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
@@ -255,6 +265,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/account/orders'
     | '/admin/admin-management'
+    | '/admin/analytics'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
@@ -279,6 +290,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/account/orders'
     | '/admin/admin-management'
+    | '/admin/analytics'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
@@ -385,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminManagementRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/categories': {
       id: '/admin/categories'
       path: '/categories'
@@ -467,6 +486,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminAdminManagementRoute: typeof AdminAdminManagementRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminCustomersRoute: typeof AdminCustomersRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
@@ -479,6 +499,7 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAdminManagementRoute: AdminAdminManagementRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminCustomersRoute: AdminCustomersRoute,
   AdminDashboardRoute: AdminDashboardRoute,
