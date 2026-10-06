@@ -166,7 +166,7 @@ export const getDashboardData = createServerFn({ method: "GET" })
     const { count: pendingCount, error: pErr } = await supabaseAdmin
       .from("orders")
       .select("id", { count: "exact", head: true })
-      .eq("status", "received");
+      .in("status", ["pending", "received"]);
     if (pErr) throw new Error(pErr.message);
 
     // Low stock variants (threshold: 5)
@@ -355,7 +355,7 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
         .from("payments")
         .update({ status: "paid", paid_at: new Date().toISOString() })
         .eq("order_id", data.id)
-        .eq("status", "received");
+        .in("status", ["pending", "received"]);
     }
 
     return { ok: true };

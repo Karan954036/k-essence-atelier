@@ -145,7 +145,7 @@ export const placeOrder = createServerFn({ method: "POST" })
           order_number: orderNumber,
           invoice_number: invoiceNumber,
           user_id: userId,
-          status: "received",
+          status: "pending",
           payment_status: "unpaid",
           payment_method: "cod",
           subtotal,
@@ -228,7 +228,7 @@ export const placeOrder = createServerFn({ method: "POST" })
     await supabaseAdmin.from("order_status_history").insert({
       order_id: order.id,
       from_status: null,
-      to_status: "received",
+      to_status: "pending",
       note: "Order placed (Cash on Delivery)",
       changed_by: userId,
     });
