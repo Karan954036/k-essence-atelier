@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { isOrderStatus } from "@/lib/order-status";
+import { isOrderStatus, normalizeStatus } from "@/lib/order-status";
 
 type SetupInput = { email: string; password: string; fullName?: string | undefined };
 
@@ -327,7 +327,7 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
       .maybeSingle();
     if (exErr) throw new Error(exErr.message);
     if (!existing) throw new Error("Order not found");
-    if (existing.status === data.status) return { ok: true, unchanged: true };
+    if (normalizeStatus(existing.status) === data.status) return { ok: true, unchanged: true };
 
     const { error } = await supabaseAdmin
       .from("orders")

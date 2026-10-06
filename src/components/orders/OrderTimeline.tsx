@@ -1,4 +1,4 @@
-import { ORDER_FLOW, statusLabel, isException, flowIndex } from "@/lib/order-status";
+import { ORDER_FLOW, statusLabel, isException, flowIndex, normalizeStatus } from "@/lib/order-status";
 
 export type HistoryRow = {
   id: string;
@@ -16,7 +16,10 @@ export function OrderTimeline({
   history: HistoryRow[];
 }) {
   const reached = new Map<string, HistoryRow>();
-  for (const row of history) if (!reached.has(row.to_status)) reached.set(row.to_status, row);
+  for (const row of history) {
+    const key = normalizeStatus(row.to_status);
+    if (!reached.has(key)) reached.set(key, row);
+  }
 
   const currentIndex = flowIndex(status);
   const exception = isException(status);
