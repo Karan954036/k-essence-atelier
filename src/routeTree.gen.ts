@@ -31,6 +31,7 @@ import { Route as AdminProductsRouteImport } from './routes/admin/products'
 import { Route as AdminSetupRouteImport } from './routes/admin/setup'
 import { Route as OrderOrderNumberRouteImport } from './routes/order.$orderNumber'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as AdminInvoiceOrderIdRouteImport } from './routes/admin/invoice.$orderId'
 import { Route as AccountOrdersOrderNumberInvoiceRouteImport } from './routes/account/orders.$orderNumber.invoice'
 
 const IndexRoute = IndexRouteImport.update({
@@ -143,6 +144,11 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
   path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminInvoiceOrderIdRoute = AdminInvoiceOrderIdRouteImport.update({
+  id: '/invoice/$orderId',
+  path: '/invoice/$orderId',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AccountOrdersOrderNumberInvoiceRoute =
   AccountOrdersOrderNumberInvoiceRouteImport.update({
     id: '/$orderNumber/invoice',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/admin/setup': typeof AdminSetupRoute
   '/order/$orderNumber': typeof OrderOrderNumberRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/invoice/$orderId': typeof AdminInvoiceOrderIdRoute
   '/account/orders/$orderNumber/invoice': typeof AccountOrdersOrderNumberInvoiceRoute
 }
 export interface FileRoutesByTo {
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/admin/setup': typeof AdminSetupRoute
   '/order/$orderNumber': typeof OrderOrderNumberRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/invoice/$orderId': typeof AdminInvoiceOrderIdRoute
   '/account/orders/$orderNumber/invoice': typeof AccountOrdersOrderNumberInvoiceRoute
 }
 export interface FileRoutesById {
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/admin/setup': typeof AdminSetupRoute
   '/order/$orderNumber': typeof OrderOrderNumberRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/invoice/$orderId': typeof AdminInvoiceOrderIdRoute
   '/account/orders/$orderNumber/invoice': typeof AccountOrdersOrderNumberInvoiceRoute
 }
 export interface FileRouteTypes {
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/admin/setup'
     | '/order/$orderNumber'
     | '/product/$slug'
+    | '/admin/invoice/$orderId'
     | '/account/orders/$orderNumber/invoice'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/admin/setup'
     | '/order/$orderNumber'
     | '/product/$slug'
+    | '/admin/invoice/$orderId'
     | '/account/orders/$orderNumber/invoice'
   id:
     | '__root__'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/admin/setup'
     | '/order/$orderNumber'
     | '/product/$slug'
+    | '/admin/invoice/$orderId'
     | '/account/orders/$orderNumber/invoice'
   fileRoutesById: FileRoutesById
 }
@@ -474,6 +486,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/invoice/$orderId': {
+      id: '/admin/invoice/$orderId'
+      path: '/invoice/$orderId'
+      fullPath: '/admin/invoice/$orderId'
+      preLoaderRoute: typeof AdminInvoiceOrderIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/account/orders/$orderNumber/invoice': {
       id: '/account/orders/$orderNumber/invoice'
       path: '/$orderNumber/invoice'
@@ -495,6 +514,7 @@ interface AdminRouteRouteChildren {
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminSetupRoute: typeof AdminSetupRoute
+  AdminInvoiceOrderIdRoute: typeof AdminInvoiceOrderIdRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
@@ -508,6 +528,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminOrdersRoute: AdminOrdersRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminSetupRoute: AdminSetupRoute,
+  AdminInvoiceOrderIdRoute: AdminInvoiceOrderIdRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
