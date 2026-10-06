@@ -30,6 +30,9 @@ function AdminLayout() {
     );
   }
 
+  // Invoices render without the sidebar so they print cleanly.
+  if (pathname.startsWith("/admin/invoice/")) return <Outlet />;
+
   // Render dashboard directly at /admin for a better default landing.
   if (pathname === "/admin") {
     return (

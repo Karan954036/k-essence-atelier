@@ -3,9 +3,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
-import { FileDown } from "lucide-react";
+import { Download, Eye } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { listOrders, updateOrderStatus, acceptAllReceivedOrders } from "@/lib/admin.functions";
-import { ALL_ORDER_STATUSES, ORDER_STATUS_LABELS, paymentMethodLabel } from "@/lib/order-status";
+import { ALL_ORDER_STATUSES, ORDER_STATUS_LABELS, paymentMethodLabel, normalizeStatus } from "@/lib/order-status";
 import { AdminPageHeader } from "@/components/admin/AdminShell";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,7 +58,7 @@ function AdminOrders() {
   });
 
   const orders: any[] = query.data ?? [];
-  const receivedCount = orders.filter((o) => o.status === "received").length;
+  const receivedCount = orders.filter((o) => normalizeStatus(o.status) === "pending").length;
 
   return (
     <div>
@@ -112,14 +113,11 @@ function AdminOrders() {
                   <td className="p-3">
                     <select
                       aria-label={`Status for ${o.order_number}`}
-                      value={o.status}
+                      value={normalizeStatus(o.status)}
                       disabled={statusMutation.isPending}
                       onChange={(e) => statusMutation.mutate({ id: o.id, status: e.target.value })}
                       className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary [&>option]:bg-background [&>option]:text-foreground [&>option:checked]:bg-primary [&>option:checked]:text-primary-foreground"
                     >
-                      {!ALL_ORDER_STATUSES.includes(o.status) ? (
-                        <option value={o.status}>{o.status}</option>
-                      ) : null}
                       {ALL_ORDER_STATUSES.map((s) => (
                         <option key={s} value={s}>
                           {ORDER_STATUS_LABELS[s]}
@@ -129,16 +127,31 @@ function AdminOrders() {
                   </td>
                   <td className="p-3">
                     {o.invoice_number ? (
-                      <a
-                        href={`/account/orders/${encodeURIComponent(o.order_number)}/invoice`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-primary hover:underline"
-                        title="Open invoice to print or save as PDF"
-                      >
-                        <FileDown className="h-4 w-4" />
+                      <div className="flex items-center gap-2">
                         <span className="font-mono text-xs">{o.invoice_number}</span>
-                      </a>
+                        <Link
+                          to="/admin/invoice/$orderId"
+                          params={{ orderId: o.id }}
+                          search={{ print: 1 }}
+                          target="_blank"
+                          aria-label={`Download invoice ${o.invoice_number}`}
+                          title="Download invoice (Save as PDF)"
+                          className="inline-flex items-center gap-1 rounded-md border border-primary/40 bg-primary/10 px-2 py-1 text-xs text-primary hover:bg-primary/20"
+                        >
+                          <Download className="h-3.5 w-3.5" /> Download
+                        </Link>
+                        <Link
+                          to="/admin/invoice/$orderId"
+                          params={{ orderId: o.id }}
+                          search={{ print: undefined }}
+                          target="_blank"
+                          aria-label={`View invoice ${o.invoice_number}`}
+                          title="View invoice"
+                          className="text-muted-foreground hover:text-primary"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Link>
+                      </div>
                     ) : (
                       <span className="text-xs text-muted-foreground">No invoice</span>
                     )}
@@ -155,7 +168,7 @@ function AdminOrders() {
           <AlertDialogHeader>
             <AlertDialogTitle>Accept {receivedCount} new orders?</AlertDialogTitle>
             <AlertDialogDescription>
-              Only orders still marked "Order Received" will move to "Accepted". Orders at any
+              Only orders still marked "Pending" will move to "Accepted". Orders at any
               other stage are not touched.
             </AlertDialogDescription>
           </AlertDialogHeader>

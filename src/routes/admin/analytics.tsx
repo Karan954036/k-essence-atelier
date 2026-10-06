@@ -54,7 +54,7 @@ function BusinessDashboard() {
     <div>
       <AdminPageHeader
         title="Business Dashboard"
-        description="Real order totals by day (India time). Cancelled, returned and RTO orders are excluded."
+        description="Real order totals by day (India time). Returned orders are excluded."
         action={
           <div className="flex flex-wrap gap-1 rounded-md border border-border/60 bg-card/40 p-1">
             {RANGES.map((r) => (

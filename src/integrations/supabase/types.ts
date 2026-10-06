@@ -563,78 +563,108 @@ export type Database = {
       products: {
         Row: {
           badge: string | null
+          brand: string | null
           category_id: string | null
           collection_id: string | null
+          concentration: string | null
           created_at: string
           description: string | null
           family: string | null
+          gender: string | null
+          height_cm: number | null
           id: string
           in_stock: boolean
           is_active: boolean
           is_demo: boolean
           kind: string
+          length_cm: number | null
           longevity: number
           model_url: string | null
           mrp: number
           name: string
+          occasions: string[] | null
           price: number
           projection: number
           rating: number
           review_count: number
+          short_description: string | null
           sillage: number
+          sku: string | null
           slug: string
           sort_order: number
           tint: string
+          weight_grams: number | null
+          width_cm: number | null
         }
         Insert: {
           badge?: string | null
+          brand?: string | null
           category_id?: string | null
           collection_id?: string | null
+          concentration?: string | null
           created_at?: string
           description?: string | null
           family?: string | null
+          gender?: string | null
+          height_cm?: number | null
           id?: string
           in_stock?: boolean
           is_active?: boolean
           is_demo?: boolean
           kind?: string
+          length_cm?: number | null
           longevity?: number
           model_url?: string | null
           mrp?: number
           name: string
+          occasions?: string[] | null
           price?: number
           projection?: number
           rating?: number
           review_count?: number
+          short_description?: string | null
           sillage?: number
+          sku?: string | null
           slug: string
           sort_order?: number
           tint?: string
+          weight_grams?: number | null
+          width_cm?: number | null
         }
         Update: {
           badge?: string | null
+          brand?: string | null
           category_id?: string | null
           collection_id?: string | null
+          concentration?: string | null
           created_at?: string
           description?: string | null
           family?: string | null
+          gender?: string | null
+          height_cm?: number | null
           id?: string
           in_stock?: boolean
           is_active?: boolean
           is_demo?: boolean
           kind?: string
+          length_cm?: number | null
           longevity?: number
           model_url?: string | null
           mrp?: number
           name?: string
+          occasions?: string[] | null
           price?: number
           projection?: number
           rating?: number
           review_count?: number
+          short_description?: string | null
           sillage?: number
+          sku?: string | null
           slug?: string
           sort_order?: number
           tint?: string
+          weight_grams?: number | null
+          width_cm?: number | null
         }
         Relationships: [
           {
