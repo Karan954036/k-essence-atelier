@@ -229,7 +229,27 @@ export const deleteProduct = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertCallerIsAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { count } = await supabaseAdmin
+      .from("order_items")
+      .select("id", { count: "exact", head: true })
+      .eq("product_id", data.id);
+    if ((count ?? 0) > 0) throw new Error("This product has orders, so it can't be deleted. Deactivate it instead.");
+    await supabaseAdmin.from("product_notes").delete().eq("product_id", data.id);
+    await supabaseAdmin.from("product_media").delete().eq("product_id", data.id);
+    await supabaseAdmin.from("product_variants").delete().eq("product_id", data.id);
     const { error } = await supabaseAdmin.from("products").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+/** Admin: publish or hide a product on the storefront. */
+export const setProductActive = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string; active: boolean }) => ({ id: String(input?.id ?? ""), active: Boolean(input?.active) }))
+  .handler(async ({ data, context }) => {
+    await assertCallerIsAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("products").update({ is_active: data.active }).eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
@@ -756,7 +776,7 @@ export const bulkImportProducts = createServerFn({ method: "POST" })
     for (const raw of data.products) {
       const label = { sku: String((raw as any)?.sku ?? ""), name: String((raw as any)?.name ?? "") };
       try {
-        const p = validateProductInput({ ...(raw as any), id: undefined, media: undefined });
+        const p = validateProductInput({ ...(raw as any), id: undefined });
         if (!p.sku) throw new Error("SKU is required for bulk import");
         const { data: dup } = await supabaseAdmin
           .from("products")
