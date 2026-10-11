@@ -21,9 +21,11 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as AccountOrdersRouteImport } from './routes/account/orders'
 import { Route as AdminAdminManagementRouteImport } from './routes/admin/admin-management'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
+import { Route as AdminCashflowRouteImport } from './routes/admin/cashflow'
 import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 import { Route as AdminCustomersRouteImport } from './routes/admin/customers'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminExpensesRouteImport } from './routes/admin/expenses'
 import { Route as AdminInventoryRouteImport } from './routes/admin/inventory'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminOrdersRouteImport } from './routes/admin/orders'
@@ -94,6 +96,11 @@ const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminCashflowRoute = AdminCashflowRouteImport.update({
+  id: '/cashflow',
+  path: '/cashflow',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
   id: '/categories',
   path: '/categories',
@@ -107,6 +114,11 @@ const AdminCustomersRoute = AdminCustomersRouteImport.update({
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminExpensesRoute = AdminExpensesRouteImport.update({
+  id: '/expenses',
+  path: '/expenses',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminInventoryRoute = AdminInventoryRouteImport.update({
@@ -169,9 +181,11 @@ export interface FileRoutesByFullPath {
   '/account/orders': typeof AccountOrdersRouteWithChildren
   '/admin/admin-management': typeof AdminAdminManagementRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/cashflow': typeof AdminCashflowRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/expenses': typeof AdminExpensesRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -195,9 +209,11 @@ export interface FileRoutesByTo {
   '/account/orders': typeof AccountOrdersRouteWithChildren
   '/admin/admin-management': typeof AdminAdminManagementRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/cashflow': typeof AdminCashflowRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/expenses': typeof AdminExpensesRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -222,9 +238,11 @@ export interface FileRoutesById {
   '/account/orders': typeof AccountOrdersRouteWithChildren
   '/admin/admin-management': typeof AdminAdminManagementRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/cashflow': typeof AdminCashflowRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/expenses': typeof AdminExpensesRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -250,9 +268,11 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/admin/admin-management'
     | '/admin/analytics'
+    | '/admin/cashflow'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
+    | '/admin/expenses'
     | '/admin/inventory'
     | '/admin/login'
     | '/admin/orders'
@@ -276,9 +296,11 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/admin/admin-management'
     | '/admin/analytics'
+    | '/admin/cashflow'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
+    | '/admin/expenses'
     | '/admin/inventory'
     | '/admin/login'
     | '/admin/orders'
@@ -302,9 +324,11 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/admin/admin-management'
     | '/admin/analytics'
+    | '/admin/cashflow'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
+    | '/admin/expenses'
     | '/admin/inventory'
     | '/admin/login'
     | '/admin/orders'
@@ -416,6 +440,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAnalyticsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/cashflow': {
+      id: '/admin/cashflow'
+      path: '/cashflow'
+      fullPath: '/admin/cashflow'
+      preLoaderRoute: typeof AdminCashflowRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/categories': {
       id: '/admin/categories'
       path: '/categories'
@@ -435,6 +466,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/expenses': {
+      id: '/admin/expenses'
+      path: '/expenses'
+      fullPath: '/admin/expenses'
+      preLoaderRoute: typeof AdminExpensesRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/inventory': {
@@ -506,9 +544,11 @@ declare module '@tanstack/react-router' {
 interface AdminRouteRouteChildren {
   AdminAdminManagementRoute: typeof AdminAdminManagementRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminCashflowRoute: typeof AdminCashflowRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminCustomersRoute: typeof AdminCustomersRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminExpensesRoute: typeof AdminExpensesRoute
   AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
@@ -520,9 +560,11 @@ interface AdminRouteRouteChildren {
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAdminManagementRoute: AdminAdminManagementRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminCashflowRoute: AdminCashflowRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminCustomersRoute: AdminCustomersRoute,
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminExpensesRoute: AdminExpensesRoute,
   AdminInventoryRoute: AdminInventoryRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminOrdersRoute: AdminOrdersRoute,

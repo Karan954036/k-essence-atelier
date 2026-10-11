@@ -1,5 +1,10 @@
 # K ESSENCE — Build Roadmap
 
+## Current requested upgrades
+- [ ] Fix uploaded primary photos on Shop and product details; verify private storage delivery.
+- [ ] Admin Expense Tracker: persistent CRUD, private receipts, category totals.
+- [ ] Admin Cashflow & P&L: India-time filters, collected revenue, expenses and chart; test calculations and flows.
+
 ## Phase 1 — Design system + homepage + 3D experience (in progress)
 
 - [x] Dark luxury design tokens (obsidian / champagne gold / ivory), luxury serif + sans typography

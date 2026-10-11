@@ -1,0 +1,1 @@
+CREATE POLICY "Admins manage expense receipts" ON storage.objects FOR ALL TO authenticated USING (bucket_id = 'expense-receipts' AND public.is_admin()) WITH CHECK (bucket_id = 'expense-receipts' AND public.is_admin());

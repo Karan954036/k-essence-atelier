@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { demoProducts, featuredCollections, type DemoProduct } from "@/data/demo-catalog";
+import { resolveMediaUrls } from "@/lib/product-media";
 
 export type FragranceNotes = { top: string[]; heart: string[]; base: string[] };
 
@@ -31,6 +32,7 @@ export type CatalogProduct = {
   manufacturing: string;
   tint: string;
   modelUrl: string | null;
+  images: { url: string; alt: string }[];
   rating: number;
   reviews: number;
   mrp: number;
@@ -53,7 +55,7 @@ export type CatalogCollection = {
 };
 
 const PRODUCT_SELECT =
-  "*, categories(name, slug), collections(slug), product_variants(id, label, price, mrp, stock, sort_order), product_notes(layer, name, sort_order)";
+  "*, categories(name, slug), collections(slug), product_variants(id, label, price, mrp, stock, sort_order), product_notes(layer, name, sort_order), product_media(url, alt, kind, sort_order)";
 
 type Row = Record<string, unknown>;
 
@@ -77,6 +79,7 @@ export function demoToCatalog(d: DemoProduct, index = 0): CatalogProduct {
     manufacturing: d.manufacturing,
     tint: d.tint,
     modelUrl: d.modelUrl ?? null,
+    images: [],
     rating: d.rating,
     reviews: d.reviews,
     mrp: d.mrp,
@@ -174,6 +177,10 @@ function toProduct(row: Row): CatalogProduct {
     ),
     tint: String(row["tint"] ?? demoMatch?.tint ?? "#3a2416"),
     modelUrl: (row["model_url"] as string) ?? demoMatch?.modelUrl ?? null,
+    images: ((row["product_media"] ?? []) as Row[])
+      .filter((m) => m["kind"] === "image")
+      .sort((a, b) => Number(a["sort_order"] ?? 0) - Number(b["sort_order"] ?? 0))
+      .map((m) => ({ url: String(m["url"] ?? ""), alt: String(m["alt"] ?? row["name"] ?? "") })),
     rating: Number(row["rating"] ?? demoMatch?.rating ?? 4.8),
     reviews: Number(row["review_count"] ?? demoMatch?.reviews ?? 50),
     mrp: Number(row["mrp"] ?? demoMatch?.mrp ?? 1999),
@@ -205,6 +212,11 @@ function toProduct(row: Row): CatalogProduct {
   };
 }
 
+async function withImages(products: CatalogProduct[]): Promise<CatalogProduct[]> {
+  const urls = await resolveMediaUrls(products.flatMap((p) => p.images.map((m) => m.url)));
+  return products.map((p) => ({ ...p, images: p.images.map((m) => ({ ...m, url: urls[m.url] ?? "" })).filter((m) => m.url) }));
+}
+
 export async function fetchProducts(): Promise<CatalogProduct[]> {
   try {
     const { data, error } = await supabase
@@ -216,7 +228,7 @@ export async function fetchProducts(): Promise<CatalogProduct[]> {
     if (error || !data || data.length === 0) {
       return fallbackCatalogProducts;
     }
-    return ((data ?? []) as Row[]).map(toProduct);
+    return await withImages(((data ?? []) as Row[]).map(toProduct));
   } catch (err) {
     console.warn("Supabase fetchProducts failed or offline; using fallback catalogue:", err);
     return fallbackCatalogProducts;
@@ -236,7 +248,7 @@ export async function fetchProductBySlug(slug: string): Promise<CatalogProduct |
       const match = fallbackCatalogProducts.find((p) => p.slug === slug);
       return match ?? null;
     }
-    return toProduct(data as Row);
+    return (await withImages([toProduct(data as Row)]))[0] ?? null;
   } catch {
     const match = fallbackCatalogProducts.find((p) => p.slug === slug);
     return match ?? null;
