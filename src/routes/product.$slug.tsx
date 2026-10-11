@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { SiteShell } from "@/components/site/SiteShell";
 import { ProductCard } from "@/components/site/ProductCard";
-import { Product3DViewer } from "@/components/product/Product3DViewer";
+import { ProductGallery } from "@/components/product/ProductGallery";
 import {
   Accordion,
   AccordionContent,
@@ -213,13 +213,7 @@ function ProductDetailPage() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           {/* Left Column: Interactive 3D Bottle Showcase & Studio Visuals */}
           <div className="relative">
-            <Product3DViewer
-              name={product.name}
-              tint={product.tint}
-              modelUrl={product.modelUrl}
-              badge={product.badge}
-              family={product.family}
-            />
+            <ProductGallery key={product.id} product={product} />
 
             {/* Guaranteed Authenticity Callout */}
             <div className="mt-5 grid grid-cols-3 gap-3 text-center">

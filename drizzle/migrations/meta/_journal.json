@@ -8,6 +8,27 @@
       "when": 1791279121265,
       "tag": "0000_product_listing_fields_and_pending_status",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791722526004,
+      "tag": "0001_active_product_image_read",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791722593564,
+      "tag": "0002_admin_expenses",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791722679897,
+      "tag": "0003_expense_receipt_access",
+      "breakpoints": true
     }
   ]
 }

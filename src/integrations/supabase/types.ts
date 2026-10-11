@@ -122,6 +122,48 @@ export type Database = {
         }
         Relationships: []
       }
+      expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          created_by: string
+          description: string
+          expense_date: string
+          id: string
+          payment_method: string
+          receipt_path: string | null
+          updated_at: string
+          vendor: string
+        }
+        Insert: {
+          amount?: number
+          category?: string
+          created_at?: string
+          created_by?: string
+          description?: string
+          expense_date?: string
+          id?: string
+          payment_method?: string
+          receipt_path?: string | null
+          updated_at?: string
+          vendor?: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          created_by?: string
+          description?: string
+          expense_date?: string
+          id?: string
+          payment_method?: string
+          receipt_path?: string | null
+          updated_at?: string
+          vendor?: string
+        }
+        Relationships: []
+      }
       invoice_items: {
         Row: {
           created_at: string

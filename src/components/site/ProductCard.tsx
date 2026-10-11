@@ -24,12 +24,13 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const off = Math.round(((product.mrp - product.price) / product.mrp) * 100);
   const isSaved = isInWishlist(product.slug);
   const categoryName = "categoryName" in product ? product.categoryName : product.category;
+  const image = "images" in product ? product.images[0] : undefined;
 
   const defaultVariantLabel =
     "variants" in product && product.variants.length > 0
-      ? product.variants[0]!.label
+      ? product.variants[0]?.label ?? "Standard"
       : "sizes" in product && product.sizes.length > 0
-        ? product.sizes[0]!.label
+        ? product.sizes[0]?.label ?? "Standard"
         : "Standard";
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -69,7 +70,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         className="light-sweep relative aspect-4/5 overflow-hidden block cursor-pointer"
         aria-label={`View details for ${product.name}`}
       >
-        <div
+        {image ? <img src={image.url} alt={image.alt || product.name} loading="lazy" className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 group-hover:scale-105" /> : <><div
           className="absolute inset-0 transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
           style={{
             background: `radial-gradient(65% 60% at 50% 35%, ${product.tint} 0%, oklch(0.12 0.008 60) 72%)`,
@@ -89,6 +90,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           </div>
         </div>
 
+        </>}
         {/* Top badging & Wishlist button */}
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3 z-10">
           {product.badge ? (
@@ -117,7 +119,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 p-3 z-10">
           <span className="inline-flex items-center gap-1.5 rounded-sm bg-obsidian/70 px-2 py-1 text-[0.5rem] tracking-[0.18em] text-muted-foreground uppercase">
             <Box className="h-3 w-3" />
-            {product.modelUrl ? "3D view" : "Placeholder visual"}
+            {image ? "Product photo" : product.modelUrl ? "3D view" : "Placeholder visual"}
           </span>
           {!product.inStock && (
             <span className="rounded-sm bg-obsidian/80 px-2 py-1 text-[0.5rem] tracking-[0.18em] text-muted-foreground uppercase">

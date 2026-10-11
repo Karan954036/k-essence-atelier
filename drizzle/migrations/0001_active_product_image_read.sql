@@ -1,0 +1,1 @@
+CREATE POLICY "Visitors read images of active products" ON storage.objects FOR SELECT TO anon, authenticated USING (bucket_id = 'product-images' AND EXISTS (SELECT 1 FROM public.product_media m JOIN public.products p ON p.id = m.product_id WHERE m.url = storage.objects.name AND m.kind = 'image' AND p.is_active));

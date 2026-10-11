@@ -11,6 +11,8 @@ import {
   ShieldCheck,
   LogOut,
   BarChart3,
+  Receipt,
+  TrendingUp,
 } from "lucide-react";
 
 const links = [
@@ -20,6 +22,8 @@ const links = [
   { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
   { to: "/admin/inventory", label: "Inventory", icon: Boxes },
   { to: "/admin/analytics", label: "Business Dashboard", icon: BarChart3 },
+  { to: "/admin/expenses", label: "Expense Tracker", icon: Receipt },
+  { to: "/admin/cashflow", label: "Cashflow & P&L", icon: TrendingUp },
   { to: "/admin/customers", label: "Customers", icon: Users },
   { to: "/admin/admin-management", label: "Admin Management", icon: ShieldCheck },
 ] as const;
